@@ -3,7 +3,7 @@
  * Links, redes sociales, contacto y política de privacidad
  */
 
-import { Instagram, Music, Youtube, Mail } from 'lucide-react';
+import { Instagram, Music, Facebook, Mail } from 'lucide-react';
 import Logo from './Logo';
 
 interface FooterProps {
@@ -23,9 +23,9 @@ export default function Footer({ language, translations, onLanguageChange }: Foo
   ];
 
   const socialLinks = [
-    { icon: Instagram, url: 'https://instagram.com/melissacuartas1113', label: 'Instagram' },
-    { icon: Music, url: 'https://tiktok.com/@melissacuartas1113', label: 'TikTok' },
-    { icon: Youtube, url: 'https://youtube.com/@melissacuartas1113', label: 'YouTube' },
+    { icon: Instagram, url: 'https://www.instagram.com/melissacuartas1113/', label: 'Instagram' },
+    { icon: Facebook, url: 'https://www.facebook.com/profile.php?id=61574994074397&locale=es_LA', label: 'Facebook' },
+    { icon: Music, url: 'https://www.tiktok.com/@melissacuartas1113', label: 'TikTok' },
   ];
 
   const scrollToSection = (id: string) => {

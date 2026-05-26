@@ -3,7 +3,7 @@
  * Links a Instagram, TikTok y YouTube
  */
 
-import { Instagram, Music, Youtube } from 'lucide-react';
+import { Instagram, Music, Facebook } from 'lucide-react';
 
 interface SocialSectionProps {
   language: 'es' | 'en';
@@ -17,23 +17,23 @@ export default function SocialSection({ language, translations }: SocialSectionP
     {
       name: 'Instagram',
       handle: '@melissacuartas1113',
-      url: 'https://instagram.com/melissacuartas1113',
+      url: 'https://www.instagram.com/melissacuartas1113/',
       icon: Instagram,
       color: 'from-pink-500 to-purple',
     },
     {
-      name: 'TikTok',
-      handle: '@melissacuartas1113',
-      url: 'https://tiktok.com/@melissacuartas1113',
-      icon: Music,
-      color: 'from-black to-purple',
+      name: 'Facebook',
+      handle: 'Melissa Cuartas',
+      url: 'https://www.facebook.com/profile.php?id=61574994074397&locale=es_LA',
+      icon: Facebook,
+      color: 'from-blue-600 to-blue-500',
     },
     {
-      name: 'YouTube',
+      name: 'TikTok',
       handle: '@melissacuartas1113',
-      url: 'https://youtube.com/@melissacuartas1113',
-      icon: Youtube,
-      color: 'from-red-600 to-red-500',
+      url: 'https://www.tiktok.com/@melissacuartas1113',
+      icon: Music,
+      color: 'from-black to-purple',
     },
   ];
 

@@ -46,17 +46,30 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
 
   const handleFormSubmit = async (data: LeadFormData) => {
     try {
-      // Aquí se enviaría a un backend o servicio de email
       console.log('Lead data:', data);
-
-      // Simulación de envío
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Mostrar éxito (en una app real, usar toast)
+      // Descargar el recurso según el tipo
+      if (data.resourceType === 'budget') {
+        const link = document.createElement('a');
+        link.href = '/manus-storage/presupuesto_consciente_melissa_cuartas(1)(1)_df810446.xlsx';
+        link.download = 'Presupuesto_Consciente_Melissa_Cuartas.xlsx';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else if (data.resourceType === 'beliefs') {
+        const link = document.createElement('a');
+        link.href = '/manus-storage/guia_creencias_limitantes_melissa_cuartas(1)_05ec951c.xlsx';
+        link.download = 'Guia_Creencias_Limitantes_Melissa_Cuartas.xlsx';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
       alert(
         language === 'es'
-          ? '¡Perfecto! Revisa tu correo para descargar tu recurso.'
-          : 'Perfect! Check your email to download your resource.'
+          ? '¡Perfecto! Tu plantilla se está descargando. Revisa tu correo para más información.'
+          : 'Perfect! Your template is downloading. Check your email for more information.'
       );
     } catch (error) {
       console.error('Error submitting form:', error);

@@ -41,7 +41,7 @@ export default function AboutSection({ language, translations }: AboutSectionPro
       <div className="container mx-auto px-4">
         {/* Grid Principal */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center mb-16">
-          {/* Foto Izquierda (Placeholder) */}
+          {/* Foto Izquierda */}
           <div className="relative h-96 md:h-full md:min-h-96 order-2 md:order-1 scroll-reveal">
             <div
               className="absolute inset-0 rounded-lg overflow-hidden"
@@ -49,19 +49,11 @@ export default function AboutSection({ language, translations }: AboutSectionPro
                 background: 'linear-gradient(to bottom right, rgba(123, 92, 231, 0.1), rgba(12, 191, 191, 0.1))',
               }}
             >
-              <div
-                className="w-full h-full flex items-center justify-center"
-                style={{
-                  background: 'linear-gradient(to bottom right, var(--color-light-gray), var(--color-mist), var(--color-light-gray))',
-                }}
-              >
-                <div className="text-center">
-                  <div className="text-6xl mb-4">📷</div>
-                  <p className="text-sm" style={{ color: 'var(--color-blue-medium)' }}>
-                    {language === 'es' ? 'Foto de Melissa (reemplazar)' : "Melissa's photo (replace)"}
-                  </p>
-                </div>
-              </div>
+              <img
+                src="/manus-storage/480497138_1177570940384292_4646939084578123503_n(1)_3e28daf9.png"
+                alt="Melissa Cuartas"
+                className="w-full h-full object-cover"
+              />
             </div>
 
             {/* Decoración */}

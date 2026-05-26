@@ -67,20 +67,14 @@ export default function HeroSection({
           </div>
         </div>
 
-        {/* Foto Derecha (Placeholder) */}
+        {/* Foto Derecha */}
         <div className="relative h-96 md:h-full md:min-h-96 animate-slide-in-right">
           <div className="absolute inset-0 bg-gradient-to-br from-purple/20 to-teal/20 rounded-lg overflow-hidden">
-            {/* Placeholder para foto de Melissa */}
-            <div className="w-full h-full bg-gradient-to-br from-dark-slate via-midnight-blue to-dark-slate flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-6xl mb-4">📸</div>
-                <p className="text-lavender text-sm">
-                  {language === 'es'
-                    ? 'Foto de Melissa (reemplazar)'
-                    : 'Melissa\'s photo (replace)'}
-                </p>
-              </div>
-            </div>
+            <img
+              src="/manus-storage/480497138_1177570940384292_4646939084578123503_n(1)_3e28daf9.png"
+              alt="Melissa Cuartas"
+              className="w-full h-full object-cover"
+            />
           </div>
 
           {/* Decoración de esquina */}

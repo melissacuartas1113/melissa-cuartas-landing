@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /.well-known
+
+Sitemap: https://melissacuartas1113.com/sitemap.xml

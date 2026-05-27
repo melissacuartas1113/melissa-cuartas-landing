@@ -31,7 +31,7 @@ export const translations = {
     about_description:
       'Crecí en Medellín en una familia humilde, con frases del dinero heredadas que me llevaban a fin de mes sin un peso sin entender por qué. Estudié Comunicaciones en la Universidad de Antioquia, hice prácticas en la Facultad de Ciencias Económicas de la UdeA y trabajé allí por más de 3 años. Descubrí que las finanzas dependen de la psicología y creencias. Hoy acompaño a otros en ese mismo camino.',
     about_pillar_1: 'Psicología del dinero',
-    about_pillar_2: 'Metafísica y energía',
+    about_pillar_2: 'Mentalidad de abundancia',
     about_pillar_3: 'Herramientas financieras reales',
 
     // Resources Section
@@ -134,7 +134,7 @@ export const translations = {
     about_description:
       'I grew up in Medellín in a humble family, with inherited money beliefs that left me with nothing at the end of each month without understanding why. I studied Communications at the University of Antioquia, interned at the Faculty of Economic Sciences at UdeA, and worked there for over 3 years. I discovered that finances depend on psychology and beliefs. Today I accompany others on that same journey.',
     about_pillar_1: 'Money Psychology',
-    about_pillar_2: 'Metaphysics & Energy',
+    about_pillar_2: 'Abundance Mindset',
     about_pillar_3: 'Real Financial Tools',
 
     // Resources Section

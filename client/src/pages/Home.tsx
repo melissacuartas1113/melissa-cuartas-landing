@@ -66,33 +66,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Meta tags dinámicos */}
-      <head>
-        <title>
-          {language === 'es'
-            ? 'Melissa Cuartas 11:13 - Finanzas Conscientes'
-            : 'Melissa Cuartas 11:13 - Conscious Finances'}
-        </title>
-        <meta
-          name="description"
-          content={
-            language === 'es'
-              ? 'Finanzas conscientes: psicología del dinero, metafísica y herramientas financieras reales. Acompañamiento personalizado.'
-              : 'Conscious finances: money psychology, metaphysics and real financial tools. Personalized mentoring.'
-          }
-        />
-        <meta property="og:title" content="Melissa Cuartas 11:13" />
-        <meta
-          property="og:description"
-          content={
-            language === 'es'
-              ? 'Finanzas conscientes para personas que ganan bien pero no les alcanza'
-              : 'Conscious finances for people who earn well but run out of money'
-          }
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content={language === 'es' ? 'es_CO' : 'en_US'} />
-      </head>
 
       {/* Header */}
       <Header

@@ -16,7 +16,7 @@ interface ResourcesSectionProps {
 
 export default function ResourcesSection({ language, translations }: ResourcesSectionProps) {
   const t = translations[language];
-  const [openModal, setOpenModal] = useState<'budget' | 'test' | 'beliefs' | null>(null);
+  const [openModal, setOpenModal] = useState<'budget' | 'beliefs' | null>(null);
   const [showInvestorTest, setShowInvestorTest] = useState(false);
 
   const resources = [
@@ -26,7 +26,6 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
       title: t.resource_1_title,
       description: t.resource_1_description,
       cta: t.cta_download,
-      color: 'from-purple to-teal',
     },
     {
       id: 'test',
@@ -34,7 +33,6 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
       title: t.resource_2_title,
       description: t.resource_2_description,
       cta: t.cta_take_test,
-      color: 'from-teal to-blue-medium',
     },
     {
       id: 'beliefs',
@@ -42,7 +40,6 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
       title: t.resource_3_title,
       description: t.resource_3_description,
       cta: t.cta_access_guide,
-      color: 'from-blue-medium to-purple',
     },
   ];
 
@@ -111,19 +108,35 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Card */}
-                <div className="relative bg-dark-slate/50 backdrop-blur-sm border border-lavender/20 rounded-lg p-8 h-full transition-all duration-300 hover:border-accent hover:shadow-2xl hover:shadow-accent/20">
-                  {/* Gradiente de fondo en hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-5 rounded-lg transition-opacity duration-300" style={{ background: `linear-gradient(to bottom right, ${resource.color.split(' ')[1]}, ${resource.color.split(' ')[3]})` }}></div>
-
+                <div
+                  className="relative backdrop-blur-sm rounded-lg p-8 h-full transition-all duration-300 hover:shadow-2xl"
+                  style={{
+                    background: 'rgba(26, 40, 71, 0.5)',
+                    border: '1px solid rgba(196, 179, 232, 0.2)',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.borderColor = 'var(--color-teal)';
+                    el.style.boxShadow = '0 0 30px rgba(12, 191, 191, 0.2)';
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.borderColor = 'rgba(196, 179, 232, 0.2)';
+                    el.style.boxShadow = 'none';
+                  }}
+                >
                   {/* Contenido */}
                   <div className="relative z-10 space-y-4">
                     {/* Icono */}
-                    <div className="w-16 h-16 rounded-lg flex items-center justify-center" style={{ background: `linear-gradient(to bottom right, var(--color-purple), var(--color-teal))` }}>
+                    <div
+                      className="w-16 h-16 rounded-lg flex items-center justify-center"
+                      style={{ background: 'linear-gradient(to bottom right, var(--color-purple), var(--color-teal))' }}
+                    >
                       <Icon size={32} className="text-white" />
                     </div>
 
                     {/* Título */}
-                    <h3 className="text-2xl font-bold font-serif text-mist">
+                    <h3 className="text-2xl font-bold font-serif" style={{ color: 'var(--color-mist)' }}>
                       {resource.title}
                     </h3>
 
@@ -138,7 +151,7 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
                         if (resource.id === 'test') {
                           setShowInvestorTest(true);
                         } else {
-                          setOpenModal(resource.id as 'budget' | 'test' | 'beliefs');
+                          setOpenModal(resource.id as 'budget' | 'beliefs');
                         }
                       }}
                       className="w-full mt-6 btn-primary text-base font-medium"
@@ -148,7 +161,10 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
                   </div>
 
                   {/* Decoración de esquina */}
-                  <div className="absolute -top-2 -right-2 w-20 h-20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'rgba(12, 191, 191, 0.1)' }}></div>
+                  <div
+                    className="absolute -top-2 -right-2 w-20 h-20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{ background: 'rgba(12, 191, 191, 0.1)' }}
+                  ></div>
                 </div>
               </div>
             );

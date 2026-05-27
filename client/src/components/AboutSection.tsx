@@ -50,7 +50,7 @@ export default function AboutSection({ language, translations }: AboutSectionPro
               }}
             >
               <img
-                src="/manus-storage/480497138_1177570940384292_4646939084578123503_n(1)_3e28daf9.png"
+                src="/manus-storage/PXL_20260527_180600517.PORTRAIT_f2bc31c7.webp"
                 alt="Melissa Cuartas"
                 className="w-full h-full object-cover"
               />

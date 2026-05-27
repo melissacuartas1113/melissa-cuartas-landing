@@ -7,6 +7,7 @@
 import { FileText, BarChart3, Heart } from 'lucide-react';
 import { useState } from 'react';
 import LeadModal, { LeadFormData } from './LeadModal';
+import InvestorTestModal from './InvestorTestModal';
 
 interface ResourcesSectionProps {
   language: 'es' | 'en';
@@ -16,6 +17,7 @@ interface ResourcesSectionProps {
 export default function ResourcesSection({ language, translations }: ResourcesSectionProps) {
   const t = translations[language];
   const [openModal, setOpenModal] = useState<'budget' | 'test' | 'beliefs' | null>(null);
+  const [showInvestorTest, setShowInvestorTest] = useState(false);
 
   const resources = [
     {
@@ -132,7 +134,13 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
 
                     {/* CTA */}
                     <button
-                      onClick={() => setOpenModal(resource.id as 'budget' | 'test' | 'beliefs')}
+                      onClick={() => {
+                        if (resource.id === 'test') {
+                          setShowInvestorTest(true);
+                        } else {
+                          setOpenModal(resource.id as 'budget' | 'test' | 'beliefs');
+                        }
+                      }}
                       className="w-full mt-6 btn-primary text-base font-medium"
                     >
                       {resource.cta}
@@ -149,17 +157,24 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
       </div>
 
       {/* Modales */}
-      {['budget', 'test', 'beliefs'].map((resourceType) => (
+      {['budget', 'beliefs'].map((resourceType) => (
         <LeadModal
           key={resourceType}
           isOpen={openModal === resourceType}
           onClose={() => setOpenModal(null)}
-          resourceType={resourceType as 'budget' | 'test' | 'beliefs'}
+          resourceType={resourceType as 'budget' | 'beliefs'}
           language={language}
           translations={translations}
           onSubmit={handleFormSubmit}
         />
       ))}
+
+      {/* Investor Test Modal */}
+      <InvestorTestModal
+        isOpen={showInvestorTest}
+        onClose={() => setShowInvestorTest(false)}
+        language={language}
+      />
     </section>
   );
 }

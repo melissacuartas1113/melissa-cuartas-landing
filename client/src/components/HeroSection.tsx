@@ -73,7 +73,8 @@ export default function HeroSection({
             <img
               src="/manus-storage/PXL_20260527_180600517.PORTRAIT_f2bc31c7.webp"
               alt="Melissa Cuartas"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
+              style={{ objectPosition: 'center' }}
             />
           </div>
 

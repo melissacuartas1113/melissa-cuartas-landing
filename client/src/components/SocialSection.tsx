@@ -3,7 +3,7 @@
  * Links a Instagram, TikTok y YouTube
  */
 
-import { Instagram, Music, Facebook } from 'lucide-react';
+import { Instagram, Music, Facebook, Youtube } from 'lucide-react';
 
 interface SocialSectionProps {
   language: 'es' | 'en';
@@ -33,7 +33,14 @@ export default function SocialSection({ language, translations }: SocialSectionP
       handle: '@melissacuartas1113',
       url: 'https://www.tiktok.com/@melissacuartas1113',
       icon: Music,
-      color: 'from-black to-purple',
+      color: 'from-black to-gray-800',
+    },
+    {
+      name: 'YouTube',
+      handle: '@MelissaCuartas1113',
+      url: 'https://www.youtube.com/@MelissaCuartas1113',
+      icon: Youtube,
+      color: 'from-red-600 to-red-500',
     },
   ];
 
@@ -59,7 +66,7 @@ export default function SocialSection({ language, translations }: SocialSectionP
         </div>
 
         {/* Grid de Redes */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {socialLinks.map((social, index) => {
             const Icon = social.icon;
             return (

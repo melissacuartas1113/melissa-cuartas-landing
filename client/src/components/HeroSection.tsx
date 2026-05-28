@@ -58,20 +58,12 @@ export default function HeroSection({
             >
               {t.cta_free_access}
             </button>
-            <a
-              href="https://wa.me/573017361157?text=Hola%20Melissa%2C%20me%20gustar%C3%ADa%20conocer%20m%C3%A1s%20sobre%20tu%20mentor%C3%ADa%20de%20finanzas%20conscientes."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium text-base transition-all"
-              style={{
-                background: 'linear-gradient(135deg, #25D366, #20BA5A)',
-                color: 'white',
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            <button
+              onClick={onScrollToMentoring}
+              className="btn-outline text-base font-medium"
             >
-              {language === 'es' ? 'Chatea conmigo' : 'Chat with me'}
-            </a>
+              {t.cta_know_mentoring}
+            </button>
           </div>
         </div>
 

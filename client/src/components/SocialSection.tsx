@@ -23,7 +23,7 @@ export default function SocialSection({ language, translations }: SocialSectionP
     },
     {
       name: 'Facebook',
-      handle: 'Melissa Cuartas',
+      handle: 'Melissa Cuartas 1113',
       url: 'https://www.facebook.com/melissacuartas1113/',
       icon: Facebook,
       color: 'from-blue-600 to-blue-500',

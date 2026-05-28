@@ -11,7 +11,7 @@ interface WhatsAppButtonProps {
 }
 
 export default function WhatsAppButton({ 
-  phoneNumber = '573212345678', // Reemplazar con número real
+  phoneNumber = '573017361157',
   message = 'Hola Melissa, me gustaría conocer más sobre tu mentoría.' 
 }: WhatsAppButtonProps) {
   const [isVisible, setIsVisible] = useState(false);

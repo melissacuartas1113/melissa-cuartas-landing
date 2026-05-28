@@ -2,15 +2,27 @@
  * Investor Test Modal Component
  * Test interactivo: ¿Qué perfil de inversionista eres?
  * 10 preguntas con lógica de puntuación y resultados personalizados
+ * + Formulario de leads antes del test
  */
 
 import { useState } from 'react';
 import { X } from 'lucide-react';
 
+export interface LeadFormData {
+  name: string;
+  email: string;
+  whatsapp: string;
+  countryCode: string;
+  acceptTerms: boolean;
+  resourceType: string;
+  timestamp: string;
+}
+
 interface InvestorTestModalProps {
   isOpen: boolean;
   onClose: () => void;
   language: 'es' | 'en';
+  onSubmitLead?: (data: LeadFormData) => Promise<void>;
 }
 
 const questions = [
@@ -59,120 +71,94 @@ const questions = [
     es: '¿Cómo describirías tu conocimiento sobre productos financieros?',
     en: 'How would you describe your knowledge of financial products?',
     options: [
-      { es: 'Muy básico o nulo. Prefiero lo tradicional y sencillo.', en: 'Very basic or none. I prefer traditional and simple.', points: 1 },
-      { es: 'Intermedio. Entiendo cómo funcionan los fondos de inversión y la relación riesgo-retorno.', en: 'Intermediate. I understand how investment funds work and risk-return.', points: 2 },
-      { es: 'Avanzado. Sigo los mercados, entiendo la volatilidad y opero en diferentes plataformas.', en: 'Advanced. I follow markets, understand volatility, and operate on different platforms.', points: 3 },
+      { es: 'Muy básico; prefiero que alguien me guíe.', en: 'Very basic; I prefer someone to guide me.', points: 1 },
+      { es: 'Tengo conocimiento moderado; he invertido antes.', en: 'Moderate knowledge; I have invested before.', points: 2 },
+      { es: 'Avanzado; he estudiado y experimentado bastante.', en: 'Advanced; I have studied and experimented a lot.', points: 3 },
     ],
   },
   {
     id: 6,
-    es: '¿De dónde provienen los ingresos que vas a invertir?',
-    en: 'Where do the funds you will invest come from?',
+    es: '¿Cuál es tu situación financiera actual?',
+    en: 'What is your current financial situation?',
     options: [
-      { es: 'Es el dinero de mis emergencias o ahorros de toda la vida que no puedo perder.', en: 'It is my emergency fund or lifetime savings that I cannot afford to lose.', points: 1 },
-      { es: 'Un excedente de mis ingresos mensuales estables.', en: 'A surplus from my stable monthly income.', points: 2 },
-      { es: 'Capital destinado exclusivamente a buscar alto crecimiento; si se pierde, no afecta mi vida.', en: 'Capital exclusively for high growth; if lost, it does not affect my lifestyle.', points: 3 },
+      { es: 'Tengo deudas y poco ahorro.', en: 'I have debts and little savings.', points: 1 },
+      { es: 'Tengo ahorros estables pero sin mucho capital extra.', en: 'I have stable savings but not much extra capital.', points: 2 },
+      { es: 'Tengo capital disponible para invertir sin afectar mis gastos.', en: 'I have capital available to invest without affecting my expenses.', points: 3 },
     ],
   },
   {
     id: 7,
-    es: '¿Qué frase define mejor tu actitud ante la volatilidad?',
-    en: 'Which phrase best defines your attitude toward volatility?',
+    es: '¿Qué tan importante es para ti tener acceso rápido a tu dinero?',
+    en: 'How important is it for you to have quick access to your money?',
     options: [
-      { es: '"No me deja dormir en paz saber que mi dinero está disminuyendo de valor"', en: '"It does not let me sleep knowing my money is losing value"', points: 1 },
-      { es: '"Acepto fluctuaciones pequeñas si eso significa ganar más que en una cuenta de ahorros"', en: '"I accept small fluctuations if it means earning more than a savings account"', points: 2 },
-      { es: '"La volatilidad es parte del juego y es la única forma de obtener grandes rendimientos"', en: '"Volatility is part of the game and the only way to get big returns"', points: 3 },
+      { es: 'Muy importante; necesito liquidez inmediata.', en: 'Very important; I need immediate liquidity.', points: 1 },
+      { es: 'Moderadamente importante; puedo esperar algunos meses.', en: 'Moderately important; I can wait a few months.', points: 2 },
+      { es: 'No es importante; puedo dejar el dinero bloqueado años.', en: 'Not important; I can leave the money locked for years.', points: 3 },
     ],
   },
   {
     id: 8,
-    es: 'Si tuvieras que elegir entre estas tres opciones de inversión, ¿cuál elegirías?',
-    en: 'If you had to choose between three investment options, which would you choose?',
+    es: '¿Cómo reaccionas ante cambios en el mercado?',
+    en: 'How do you react to market changes?',
     options: [
-      { es: 'Una opción que te garantice un 10% anual fijo, con riesgo cero de pérdida.', en: 'An option guaranteeing 10% annual fixed, with zero loss risk.', points: 1 },
-      { es: 'Una opción que promedie un 15% anual, pero que un año malo pueda caer un 5%.', en: 'An option averaging 15% annual, but a bad year could drop 5%.', points: 2 },
-      { es: 'Una opción que pueda darte un 30% anual, pero con riesgo de caer un 20% o más.', en: 'An option that could give 30% annual, but risk dropping 20% or more.', points: 3 },
+      { es: 'Me pongo nervioso y quiero vender.', en: 'I get nervous and want to sell.', points: 1 },
+      { es: 'Me mantengo neutral y observo.', en: 'I stay neutral and observe.', points: 2 },
+      { es: 'Veo oportunidades y quiero comprar más.', en: 'I see opportunities and want to buy more.', points: 3 },
     ],
   },
   {
     id: 9,
-    es: '¿Cuál es tu situación laboral y estabilidad de ingresos actual?',
-    en: 'What is your employment situation and income stability?',
+    es: '¿Cuál es tu horizonte de inversión ideal?',
+    en: 'What is your ideal investment horizon?',
     options: [
-      { es: 'Ingresos variables, inestables o dependo de este capital a corto plazo.', en: 'Variable, unstable income or I depend on this capital short-term.', points: 1 },
-      { es: 'Ingresos estables (salario fijo o negocio consolidado), con capacidad de ahorro regular.', en: 'Stable income (fixed salary or established business), with regular savings capacity.', points: 2 },
-      { es: 'Ingresos sólidos y múltiples fuentes de ingresos que respaldan mis inversiones.', en: 'Solid income and multiple income sources supporting my investments.', points: 3 },
+      { es: 'Corto (menos de 1 año).', en: 'Short (less than 1 year).', points: 1 },
+      { es: 'Mediano (1-5 años).', en: 'Medium (1-5 years).', points: 2 },
+      { es: 'Largo (más de 5 años).', en: 'Long (more than 5 years).', points: 3 },
     ],
   },
   {
     id: 10,
-    es: 'En el pasado, cuando has tomado decisiones financieras con riesgo, ¿cómo te has sentido?',
-    en: 'In the past, when you made risky financial decisions, how did you feel?',
+    es: '¿Qué esperas lograr con tus inversiones?',
+    en: 'What do you hope to achieve with your investments?',
     options: [
-      { es: 'No suelo tomarlos, prefiero la certeza absoluta.', en: 'I usually do not take them, I prefer absolute certainty.', points: 1 },
-      { es: 'Con algo de ansiedad al principio, pero me adapto si veo resultados después.', en: 'With some anxiety at first, but I adapt if I see results later.', points: 2 },
-      { es: 'Cómodo y emocionado por la oportunidad de ganar más.', en: 'Comfortable and excited about the opportunity to earn more.', points: 3 },
+      { es: 'Proteger mi patrimonio de la inflación.', en: 'Protect my assets from inflation.', points: 1 },
+      { es: 'Generar ingresos complementarios.', en: 'Generate supplementary income.', points: 2 },
+      { es: 'Crear riqueza y libertad financiera.', en: 'Create wealth and financial freedom.', points: 3 },
     ],
   },
 ];
 
-export default function InvestorTestModal({ isOpen, onClose, language }: InvestorTestModalProps) {
+export default function InvestorTestModal({
+  isOpen,
+  onClose,
+  language,
+  onSubmitLead,
+}: InvestorTestModalProps) {
+  const [showLeadForm, setShowLeadForm] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showResults, setShowResults] = useState(false);
-
-  const t = language === 'es' ? {
-    title: '¿Qué perfil de inversionista eres?',
-    subtitle: 'Responde las siguientes 10 preguntas para descubrir tu estrategia ideal.',
-    previous: 'Anterior',
-    next: 'Siguiente',
-    results: 'Ver Resultados',
-    restart: 'Volver a hacer el test',
-    conservative: 'Perfil Conservador',
-    conservative_title: 'Tu norte es la seguridad',
-    conservative_desc: 'Tu prioridad principal es preservar tu dinero y la tranquilidad mental sobre las rentabilidades altas. No toleras bien la volatilidad a corto plazo.',
-    conservative_options: ['Cuentas de ahorros de alta rentabilidad (neobancos).', 'CDTs digitales a plazos fijos.', 'Fondos de inversión colectiva (FICs) de Renta Fija de bajo riesgo o bonos estatales.'],
-    moderate: 'Perfil Moderado',
-    moderate_title: 'Buscas el equilibrio perfecto',
-    moderate_desc: 'Entiendes que para ganarle a la inflación hay que asumir algo de riesgo, pero mantienes siempre la cautela. Toleras variaciones temporales si sabes que a mediano plazo el capital crecerá.',
-    moderate_options: ['Fondos de inversión inmobiliaria (bienes raíces digitales).', 'Portafolios diversificados de plataformas digitales (mezcla Renta Fija y Acciones).', 'ETFs globales indexados estables.'],
-    aggressive: 'Perfil Agresivo / Crecimiento',
-    aggressive_title: 'Vas por el crecimiento exponencial',
-    aggressive_desc: 'Tienes el estómago, el conocimiento y el horizonte de tiempo para entender que las caídas del mercado son simples oportunidades de compra en descuento. Buscas maximizar tu capital a largo plazo.',
-    aggressive_options: ['Acciones individuales y ETFs de crecimiento / tecnológicos.', 'Fondos de capital privado y Crowdfunding financiero.', 'Criptoactivos o inversiones fintech de alto riesgo con capital de riesgo controlado.'],
-  } : {
-    title: 'What investor profile are you?',
-    subtitle: 'Answer the following 10 questions to discover your ideal strategy.',
-    previous: 'Previous',
-    next: 'Next',
-    results: 'See Results',
-    restart: 'Retake the test',
-    conservative: 'Conservative Profile',
-    conservative_title: 'Your focus is security',
-    conservative_desc: 'Your main priority is preserving your money and peace of mind over high returns. You do not tolerate short-term volatility well.',
-    conservative_options: ['High-yield savings accounts (neobanks).', 'Digital fixed-term CDs.', 'Low-risk fixed-income collective investment funds or government bonds.'],
-    moderate: 'Moderate Profile',
-    moderate_title: 'You seek the perfect balance',
-    moderate_desc: 'You understand that to beat inflation you must take some risk, but always maintain caution. You tolerate temporary variations if you know capital will grow medium-term.',
-    moderate_options: ['Real estate investment funds (digital real estate).', 'Diversified portfolios from digital platforms (mix fixed income and stocks).', 'Stable global indexed ETFs.'],
-    aggressive: 'Aggressive / Growth Profile',
-    aggressive_title: 'You are going for exponential growth',
-    aggressive_desc: 'You have the stomach, knowledge, and time horizon to understand that market downturns are simply buying opportunities at a discount. You seek to maximize your capital long-term.',
-    aggressive_options: ['Individual stocks and growth / technology ETFs.', 'Private equity funds and financial crowdfunding.', 'Crypto assets or high-risk fintech investments with controlled risk capital.'],
-  };
-
-  if (!isOpen) return null;
+  const [formData, setFormData] = useState<LeadFormData>({
+    name: '',
+    email: '',
+    whatsapp: '',
+    countryCode: '+57',
+    acceptTerms: false,
+    resourceType: 'test',
+    timestamp: new Date().toISOString(),
+  });
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [isLoadingForm, setIsLoadingForm] = useState(false);
 
   const handleSelectOption = (points: number) => {
-    const newAnswers = { ...answers, [currentQuestion]: points };
-    setAnswers(newAnswers);
+    setAnswers({ ...answers, [currentQuestion]: points });
   };
 
   const handleNext = () => {
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
+    if (currentQuestion === questions.length - 1) {
       setShowResults(true);
+    } else {
+      setCurrentQuestion(currentQuestion + 1);
     }
   };
 
@@ -188,35 +174,68 @@ export default function InvestorTestModal({ isOpen, onClose, language }: Investo
     setShowResults(false);
   };
 
-  const calculateResults = () => {
-    let totalScore = 0;
-    for (let i = 0; i < questions.length; i++) {
-      totalScore += answers[i] || 0;
-    }
-    return totalScore;
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.name.trim()) newErrors.name = language === 'es' ? 'Campo requerido' : 'Required field';
+    if (!formData.email.trim()) newErrors.email = language === 'es' ? 'Campo requerido' : 'Required field';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = language === 'es' ? 'Email inválido' : 'Invalid email';
+    if (!formData.whatsapp.trim()) newErrors.whatsapp = language === 'es' ? 'Campo requerido' : 'Required field';
+    if (!formData.acceptTerms) newErrors.acceptTerms = language === 'es' ? 'Debes aceptar los términos' : 'You must accept the terms';
+    setFormErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const totalScore = calculateResults();
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    setIsLoadingForm(true);
+    try {
+      if (onSubmitLead) {
+        await onSubmitLead(formData);
+      }
+      setShowLeadForm(false);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setIsLoadingForm(false);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  const totalScore = Object.values(answers).reduce((a, b) => a + b, 0);
   const progress = ((currentQuestion + 1) / questions.length) * 100;
 
   let profileType = 'conservative';
-  let profileBadge = t.conservative;
-  let profileTitle = t.conservative_title;
-  let profileDesc = t.conservative_desc;
-  let profileOptions = t.conservative_options;
+  let profileBadge = language === 'es' ? 'Perfil Conservador' : 'Conservative Profile';
+  let profileTitle = language === 'es' ? 'Inversionista Conservador' : 'Conservative Investor';
+  let profileDesc = language === 'es' 
+    ? 'Buscas seguridad y estabilidad. Prefieres inversiones de bajo riesgo que protejan tu capital.'
+    : 'You seek security and stability. You prefer low-risk investments that protect your capital.';
+  let profileOptions = language === 'es' 
+    ? ['Fondos de inversión de renta fija', 'Bonos del gobierno', 'Cuentas de ahorro de alto rendimiento']
+    : ['Fixed income investment funds', 'Government bonds', 'High-yield savings accounts'];
 
   if (totalScore >= 17 && totalScore <= 24) {
     profileType = 'moderate';
-    profileBadge = t.moderate;
-    profileTitle = t.moderate_title;
-    profileDesc = t.moderate_desc;
-    profileOptions = t.moderate_options;
+    profileBadge = language === 'es' ? 'Perfil Moderado' : 'Moderate Profile';
+    profileTitle = language === 'es' ? 'Inversionista Moderado' : 'Moderate Investor';
+    profileDesc = language === 'es'
+      ? 'Buscas equilibrio entre seguridad y crecimiento. Estás dispuesto a asumir riesgos moderados.'
+      : 'You seek balance between security and growth. You are willing to take moderate risks.';
+    profileOptions = language === 'es'
+      ? ['Fondos indexados', 'Acciones de empresas consolidadas', 'Criptomonedas de bajo riesgo']
+      : ['Index funds', 'Established company stocks', 'Low-risk cryptocurrencies'];
   } else if (totalScore >= 25) {
     profileType = 'aggressive';
-    profileBadge = t.aggressive;
-    profileTitle = t.aggressive_title;
-    profileDesc = t.aggressive_desc;
-    profileOptions = t.aggressive_options;
+    profileBadge = language === 'es' ? 'Perfil Agresivo' : 'Aggressive Profile';
+    profileTitle = language === 'es' ? 'Inversionista Agresivo' : 'Aggressive Investor';
+    profileDesc = language === 'es'
+      ? 'Buscas máximo crecimiento. Estás preparado para volatilidad y posibles pérdidas a corto plazo.'
+      : 'You seek maximum growth. You are prepared for volatility and possible short-term losses.';
+    profileOptions = language === 'es'
+      ? ['Acciones de alto crecimiento', 'Startups y emprendimientos', 'Criptomonedas emergentes']
+      : ['High-growth stocks', 'Startups and ventures', 'Emerging cryptocurrencies'];
   }
 
   const badgeColors = {
@@ -232,9 +251,9 @@ export default function InvestorTestModal({ isOpen, onClose, language }: Investo
         <div className="sticky top-0 flex justify-between items-center p-6 border-b" style={{ borderColor: 'rgba(196, 179, 232, 0.2)' }}>
           <div>
             <h2 className="text-2xl font-bold font-serif" style={{ color: 'var(--color-midnight-blue)' }}>
-              {showResults ? profileBadge : t.title}
+              {showLeadForm ? (language === 'es' ? 'Acceso al Test' : 'Test Access') : (showResults ? profileBadge : (language === 'es' ? 'Test de Perfil' : 'Profile Test'))}
             </h2>
-            {!showResults && <p style={{ color: 'var(--color-blue-medium)' }} className="text-sm mt-1">{t.subtitle}</p>}
+            {!showLeadForm && !showResults && <p style={{ color: 'var(--color-blue-medium)' }} className="text-sm mt-1">{language === 'es' ? '10 preguntas para descubrir tu perfil' : '10 questions to discover your profile'}</p>}
           </div>
           <button
             onClick={onClose}
@@ -246,7 +265,84 @@ export default function InvestorTestModal({ isOpen, onClose, language }: Investo
 
         {/* Content */}
         <div className="p-6">
-          {!showResults ? (
+          {showLeadForm ? (
+            <form onSubmit={handleFormSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-midnight-blue)' }}>
+                  {language === 'es' ? 'Nombre completo' : 'Full name'}
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg"
+                  style={{ borderColor: formErrors.name ? '#ef4444' : 'rgba(196, 179, 232, 0.3)' }}
+                />
+                {formErrors.name && <p className="text-red-500 text-xs mt-1">{formErrors.name}</p>}
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-midnight-blue)' }}>
+                  {language === 'es' ? 'Email' : 'Email'}
+                </label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg"
+                  style={{ borderColor: formErrors.email ? '#ef4444' : 'rgba(196, 179, 232, 0.3)' }}
+                />
+                {formErrors.email && <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>}
+              </div>
+              <div className="flex gap-2">
+                <select
+                  value={formData.countryCode}
+                  onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
+                  className="px-3 py-2 border rounded-lg"
+                  style={{ borderColor: 'rgba(196, 179, 232, 0.3)' }}
+                >
+                  <option value="+1">+1 US/CA</option>
+                  <option value="+34">+34 ES</option>
+                  <option value="+57">+57 CO</option>
+                  <option value="+55">+55 BR</option>
+                  <option value="+52">+52 MX</option>
+                  <option value="+44">+44 UK</option>
+                </select>
+                <div className="flex-1">
+                  <input
+                    type="tel"
+                    value={formData.whatsapp}
+                    onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+                    placeholder={language === 'es' ? 'Tu número' : 'Your number'}
+                    className="w-full px-4 py-2 border rounded-lg"
+                    style={{ borderColor: formErrors.whatsapp ? '#ef4444' : 'rgba(196, 179, 232, 0.3)' }}
+                  />
+                </div>
+              </div>
+              {formErrors.whatsapp && <p className="text-red-500 text-xs">{formErrors.whatsapp}</p>}
+              <label className="flex items-start gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.acceptTerms}
+                  onChange={(e) => setFormData({ ...formData, acceptTerms: e.target.checked })}
+                  className="mt-1"
+                />
+                <span className="text-sm" style={{ color: 'var(--color-midnight-blue)' }}>
+                  {language === 'es' ? 'Acepto recibir información sobre mentoría y finanzas conscientes' : 'I accept to receive information about mentoring and conscious finances'}
+                </span>
+              </label>
+              {formErrors.acceptTerms && <p className="text-red-500 text-xs">{formErrors.acceptTerms}</p>}
+              <button
+                type="submit"
+                disabled={isLoadingForm}
+                className="w-full px-6 py-3 rounded-lg font-medium text-white transition-colors disabled:opacity-50"
+                style={{
+                  background: 'linear-gradient(to right, var(--color-purple), var(--color-teal))',
+                }}
+              >
+                {isLoadingForm ? (language === 'es' ? 'Cargando...' : 'Loading...') : (language === 'es' ? 'Comenzar Test' : 'Start Test')}
+              </button>
+            </form>
+          ) : !showResults ? (
             <>
               {/* Progress Bar */}
               <div className="mb-6">
@@ -260,7 +356,7 @@ export default function InvestorTestModal({ isOpen, onClose, language }: Investo
                   ></div>
                 </div>
                 <p className="text-xs mt-2" style={{ color: 'var(--color-blue-medium)' }}>
-                  Pregunta {currentQuestion + 1} de {questions.length}
+                  {language === 'es' ? `Pregunta ${currentQuestion + 1} de ${questions.length}` : `Question ${currentQuestion + 1} of ${questions.length}`}
                 </p>
               </div>
 
@@ -278,12 +374,11 @@ export default function InvestorTestModal({ isOpen, onClose, language }: Investo
                       onClick={() => handleSelectOption(option.points)}
                       className="w-full p-4 text-left border-2 rounded-lg transition-all"
                       style={{
-                        borderColor: answers[currentQuestion] === option.points ? 'var(--color-purple)' : 'rgba(196, 179, 232, 0.2)',
-                        backgroundColor: answers[currentQuestion] === option.points ? 'rgba(123, 92, 231, 0.1)' : 'transparent',
+                        borderColor: answers[currentQuestion] === option.points ? 'var(--color-teal)' : 'rgba(196, 179, 232, 0.3)',
+                        background: answers[currentQuestion] === option.points ? 'rgba(0, 200, 200, 0.1)' : 'transparent',
                         color: 'var(--color-midnight-blue)',
                       }}
                     >
-                      <span className="font-semibold mr-3">{String.fromCharCode(65 + idx)}</span>
                       {language === 'es' ? option.es : option.en}
                     </button>
                   ))}
@@ -291,17 +386,16 @@ export default function InvestorTestModal({ isOpen, onClose, language }: Investo
               </div>
 
               {/* Navigation */}
-              <div className="flex justify-between gap-4 mt-8">
+              <div className="flex gap-3">
                 <button
                   onClick={handlePrevious}
                   disabled={currentQuestion === 0}
                   className="px-6 py-2 rounded-lg font-medium transition-colors disabled:opacity-50"
                   style={{
-                    background: 'rgba(196, 179, 232, 0.2)',
                     color: 'var(--color-midnight-blue)',
                   }}
                 >
-                  {t.previous}
+                  {language === 'es' ? 'Anterior' : 'Previous'}
                 </button>
                 <button
                   onClick={handleNext}
@@ -311,7 +405,7 @@ export default function InvestorTestModal({ isOpen, onClose, language }: Investo
                     background: 'linear-gradient(to right, var(--color-purple), var(--color-teal))',
                   }}
                 >
-                  {currentQuestion === questions.length - 1 ? t.results : t.next}
+                  {currentQuestion === questions.length - 1 ? (language === 'es' ? 'Ver Resultados' : 'See Results') : (language === 'es' ? 'Siguiente' : 'Next')}
                 </button>
               </div>
             </>
@@ -352,7 +446,7 @@ export default function InvestorTestModal({ isOpen, onClose, language }: Investo
                     background: 'linear-gradient(to right, var(--color-purple), var(--color-teal))',
                   }}
                 >
-                  {t.restart}
+                  {language === 'es' ? 'Hacer de Nuevo' : 'Try Again'}
                 </button>
               </div>
             </>

@@ -190,6 +190,7 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
         isOpen={showInvestorTest}
         onClose={() => setShowInvestorTest(false)}
         language={language}
+        onSubmitLead={handleFormSubmit}
       />
     </section>
   );

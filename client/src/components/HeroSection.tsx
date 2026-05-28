@@ -71,7 +71,7 @@ export default function HeroSection({
         <div className="relative h-96 md:h-full md:min-h-96 animate-slide-in-right">
           <div className="absolute inset-0 bg-gradient-to-br from-purple/20 to-teal/20 rounded-lg overflow-hidden">
             <img
-              src="/manus-storage/PXL_20260527_180600517.PORTRAIT_f2bc31c7.webp"
+              src="/manus-storage/PXL_20260527_172432868(2)edite_32aae442.webp"
               alt="Melissa Cuartas"
               className="w-full h-full object-contain"
               style={{ objectPosition: 'center' }}

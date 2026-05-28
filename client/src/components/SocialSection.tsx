@@ -24,7 +24,7 @@ export default function SocialSection({ language, translations }: SocialSectionP
     {
       name: 'Facebook',
       handle: 'Melissa Cuartas',
-      url: 'https://www.facebook.com/profile.php?id=61574994074397&locale=es_LA',
+      url: 'https://www.facebook.com/melissacuartas1113/',
       icon: Facebook,
       color: 'from-blue-600 to-blue-500',
     },

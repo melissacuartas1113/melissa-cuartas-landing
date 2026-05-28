@@ -24,7 +24,7 @@ export default function Footer({ language, translations, onLanguageChange }: Foo
 
   const socialLinks = [
     { icon: Instagram, url: 'https://www.instagram.com/melissacuartas1113/', label: 'Instagram' },
-    { icon: Facebook, url: 'https://www.facebook.com/profile.php?id=61574994074397&locale=es_LA', label: 'Facebook' },
+    { icon: Facebook, url: 'https://www.facebook.com/melissacuartas1113/', label: 'Facebook' },
     { icon: Music, url: 'https://www.tiktok.com/@melissacuartas1113', label: 'TikTok' },
     { icon: Youtube, url: 'https://www.youtube.com/@MelissaCuartas1113', label: 'YouTube' },
   ];

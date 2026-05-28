@@ -5,6 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import WhatsAppButton from "./components/WhatsAppButton";
 
 
 function Router() {
@@ -33,6 +34,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <WhatsAppButton phoneNumber="573212345678" message="Hola Melissa, me gustaría conocer más sobre tu mentoría de finanzas conscientes." />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

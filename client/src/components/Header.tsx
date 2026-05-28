@@ -60,7 +60,7 @@ export default function Header({ language, onLanguageChange, translations }: Hea
         >
           <Logo size="sm" variant="dark" />
           <span className="hidden sm:inline font-bold text-sm tracking-wider text-foreground">
-            MELISSA
+            MELISSA CUARTAS 11 13
           </span>
         </button>
 

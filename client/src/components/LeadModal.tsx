@@ -6,6 +6,8 @@
 
 import { useState } from 'react';
 import { X } from 'lucide-react';
+import { trpc } from '@/lib/trpc';
+import { toast } from 'sonner';
 
 interface LeadModalProps {
   isOpen: boolean;
@@ -82,6 +84,8 @@ export default function LeadModal({
     return Object.keys(newErrors).length === 0;
   };
 
+  const captureLead = trpc.leads.capture.useMutation();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -89,7 +93,18 @@ export default function LeadModal({
 
     setIsLoading(true);
     try {
+      // Send lead to backend
+      await captureLead.mutateAsync({
+        name: formData.name,
+        email: formData.email,
+        whatsapp: formData.whatsapp,
+        country: formData.countryCode,
+        source: resourceType,
+      });
+
+      // Also call the original onSubmit for resource download
       await onSubmit(formData);
+
       setFormData({
         name: '',
         email: '',
@@ -101,8 +116,19 @@ export default function LeadModal({
       });
       setErrors({});
       onClose();
+
+      toast.success(
+        language === 'es'
+          ? '¡Lead capturado exitosamente!'
+          : 'Lead captured successfully!'
+      );
     } catch (error) {
       console.error('Form submission error:', error);
+      toast.error(
+        language === 'es'
+          ? 'Error al capturar el lead'
+          : 'Error capturing lead'
+      );
     } finally {
       setIsLoading(false);
     }

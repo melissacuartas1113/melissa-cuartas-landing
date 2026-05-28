@@ -7,6 +7,8 @@
 
 import { useState } from 'react';
 import { X } from 'lucide-react';
+import { trpc } from '@/lib/trpc';
+import { toast } from 'sonner';
 
 export interface LeadFormData {
   name: string;
@@ -185,17 +187,39 @@ export default function InvestorTestModal({
     return Object.keys(newErrors).length === 0;
   };
 
+  const captureLead = trpc.leads.capture.useMutation();
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
     setIsLoadingForm(true);
     try {
+      // Send lead to backend
+      await captureLead.mutateAsync({
+        name: formData.name,
+        email: formData.email,
+        whatsapp: formData.whatsapp,
+        country: formData.countryCode,
+        source: 'investor-test',
+      });
+
       if (onSubmitLead) {
         await onSubmitLead(formData);
       }
       setShowLeadForm(false);
+
+      toast.success(
+        language === 'es'
+          ? '¡Lead capturado exitosamente!'
+          : 'Lead captured successfully!'
+      );
     } catch (error) {
       console.error('Error submitting form:', error);
+      toast.error(
+        language === 'es'
+          ? 'Error al capturar el lead'
+          : 'Error capturing lead'
+      );
     } finally {
       setIsLoadingForm(false);
     }

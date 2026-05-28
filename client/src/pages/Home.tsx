@@ -4,6 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/_core/hooks/useAuth';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
@@ -14,6 +15,10 @@ import Footer from '@/components/Footer';
 import { translations } from '@/lib/translations';
 
 export default function Home() {
+  // The userAuth hooks provides authentication state
+  // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
+  const { user, loading, error, isAuthenticated, logout } = useAuth();
+
   const [language, setLanguage] = useState<'es' | 'en'>('es');
 
   // Detectar idioma del navegador al cargar

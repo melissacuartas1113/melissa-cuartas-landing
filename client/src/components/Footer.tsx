@@ -44,11 +44,20 @@ export default function Footer({ language, translations, onLanguageChange }: Foo
           {/* Columna 1: Logo y Descripción */}
           <div className="space-y-4">
             <Logo size="md" variant="dark" />
-            <p className="text-sm leading-relaxed" style={{ color: 'var(--color-lavender)' }}>
-              {language === 'es'
-                ? 'Finanzas conscientes, psicología del dinero y transformación energética.'
-                : 'Conscious finances, money psychology and energetic transformation.'}
-            </p>
+            <a
+              href="https://wa.me/573017361157?text=Hola%20Melissa%2C%20me%20gustaría%20conocer%20más%20sobre%20tu%20mentoría%20de%20finanzas%20conscientes."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-4 py-2 rounded-lg font-medium text-sm transition-all"
+              style={{
+                background: 'linear-gradient(135deg, #25D366, #20BA5A)',
+                color: 'white',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            >
+              {language === 'es' ? 'Chatea conmigo' : 'Chat with me'}
+            </a>
             <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--color-lavender)' }}>
               <Mail size={16} />
               <a href="mailto:melissacuartas1113@gmail.com" className="transition-colors" style={{ color: 'var(--color-lavender)' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-teal)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-lavender)'}>

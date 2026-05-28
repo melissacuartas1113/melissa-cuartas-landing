@@ -125,18 +125,8 @@ export default function Footer({ language, translations, onLanguageChange }: Foo
             </p>
           </div>
 
-          {/* Links Legales y Selector de Idioma */}
+          {/* Selector de Idioma */}
           <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6">
-            <a
-              href="#privacy"
-              className="text-sm transition-colors"
-              style={{ color: 'var(--color-lavender)' }}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-teal)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-lavender)'}
-            >
-              {t.footer_privacy}
-            </a>
-
             {/* Selector de Idioma */}
             <div className="flex items-center gap-2 rounded-md p-1" style={{ background: 'var(--color-dark-slate)' }}>
               <button

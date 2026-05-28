@@ -78,16 +78,12 @@ export default function MentoringSection({ language, translations }: MentoringSe
           {/* Imagen/Decoración Derecha */}
           <div className="relative h-96 md:h-full md:min-h-96 scroll-reveal">
             <div className="absolute inset-0 rounded-lg overflow-hidden" style={{ background: 'linear-gradient(to bottom right, rgba(123, 92, 231, 0.1), rgba(12, 191, 191, 0.1))' }}>
-              <div className="w-full h-full flex items-center justify-center" style={{ background: 'linear-gradient(to bottom right, var(--color-light-gray), var(--color-mist), var(--color-light-gray))' }}>
-                <div className="text-center">
-                  <div className="text-6xl mb-4">💬</div>
-                  <p className="text-sm" style={{ color: 'var(--color-blue-medium)' }}>
-                    {language === 'es'
-                      ? 'Conversación personalizada'
-                      : 'Personalized conversation'}
-                  </p>
-                </div>
-              </div>
+              <img
+                src="/manus-storage/YOUTUBEPORTA_2f15c558.webp"
+                alt="Melissa Cuartas 11:13"
+                className="w-full h-full object-contain"
+                style={{ objectPosition: 'center' }}
+              />
             </div>
 
             {/* Decoración */}

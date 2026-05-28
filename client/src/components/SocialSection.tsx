@@ -3,7 +3,7 @@
  * Links a Instagram, TikTok y YouTube
  */
 
-import { Instagram, Music, Facebook, Youtube } from 'lucide-react';
+import { Instagram, Facebook, Youtube } from 'lucide-react';
 
 interface SocialSectionProps {
   language: 'es' | 'en';
@@ -32,8 +32,9 @@ export default function SocialSection({ language, translations }: SocialSectionP
       name: 'TikTok',
       handle: '@melissacuartas1113',
       url: 'https://www.tiktok.com/@melissacuartas1113',
-      icon: Music,
+      icon: null,
       color: 'from-black to-gray-800',
+      image: '/manus-storage/tiktok-logo_a0f3e4c0.png',
     },
     {
       name: 'YouTube',
@@ -86,7 +87,11 @@ export default function SocialSection({ language, translations }: SocialSectionP
                   <div className="relative z-10 space-y-4 text-center">
                     {/* Icono */}
                     <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto" style={{ background: `linear-gradient(to bottom right, ${social.color.split(' ')[1]}, ${social.color.split(' ')[3]})` }}>
-                      <Icon size={32} className="text-white" />
+                      {social.image ? (
+                        <img src={social.image} alt={social.name} className="w-8 h-8" />
+                      ) : Icon ? (
+                        <Icon size={32} className="text-white" />
+                      ) : null}
                     </div>
 
                     {/* Nombre */}

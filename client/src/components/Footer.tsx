@@ -3,7 +3,7 @@
  * Links, redes sociales, contacto y política de privacidad
  */
 
-import { Instagram, Music, Facebook, Mail, Youtube } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import Logo from './Logo';
 
 interface FooterProps {
@@ -23,10 +23,10 @@ export default function Footer({ language, translations, onLanguageChange }: Foo
   ];
 
   const socialLinks = [
-    { icon: Instagram, url: 'https://www.instagram.com/melissacuartas1113/', label: 'Instagram' },
-    { icon: Facebook, url: 'https://www.facebook.com/melissacuartas1113/', label: 'Facebook' },
-    { icon: Music, url: 'https://www.tiktok.com/@melissacuartas1113', label: 'TikTok' },
-    { icon: Youtube, url: 'https://www.youtube.com/@MelissaCuartas1113', label: 'YouTube' },
+    { image: '/manus-storage/instagram-logo_fcfed5a2.png', url: 'https://www.instagram.com/melissacuartas1113/', label: 'Instagram' },
+    { image: '/manus-storage/facebook-f-blue-logo_07e88c7c.png', url: 'https://www.facebook.com/melissacuartas1113/', label: 'Facebook' },
+    { image: '/manus-storage/tiktok-logo_a0f3e4c0.png', url: 'https://www.tiktok.com/@melissacuartas1113', label: 'TikTok' },
+    { image: '/manus-storage/youtube-logo_ed624157.png', url: 'https://www.youtube.com/@MelissaCuartas1113', label: 'YouTube' },
   ];
 
   const scrollToSection = (id: string) => {
@@ -94,22 +94,18 @@ export default function Footer({ language, translations, onLanguageChange }: Foo
               {language === 'es' ? 'Sígueme' : 'Follow me'}
             </h3>
             <div className="flex gap-3">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.label}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-lg flex items-center justify-center transition-all"
-                    style={{ background: 'linear-gradient(to bottom right, var(--color-purple), var(--color-teal))' }}
-                    title={social.label}
-                  >
-                    <Icon size={20} className="text-white" />
-                  </a>
-                );
-              })}
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-lg flex items-center justify-center transition-all hover:scale-110"
+                  title={social.label}
+                >
+                  <img src={social.image} alt={social.label} className="w-6 h-6 object-contain" />
+                </a>
+              ))}
             </div>
           </div>
         </div>

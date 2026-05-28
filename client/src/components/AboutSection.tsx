@@ -86,8 +86,8 @@ export default function AboutSection({ language, translations }: AboutSectionPro
 
             <p className="text-base italic" style={{ color: 'var(--color-blue-medium)' }}>
               {language === 'es'
-                ? '"La transformación financiera comienza cuando sanamos nuestra relación con el dinero"'
-                : '"Financial transformation begins when we heal our relationship with money"'}
+                ? '"La transformación financiera sostenible comienza cuando sanas la raíz de tu relación con el dinero"'
+                : '"Sustainable financial transformation begins when you heal the root of your relationship with money"'}
             </p>
           </div>
         </div>

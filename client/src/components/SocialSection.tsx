@@ -81,7 +81,7 @@ export default function SocialSection({ language, translations }: SocialSectionP
                 {/* Contenido */}
                 <div className="relative z-10 space-y-4 text-center">
                   {/* Icono */}
-                  <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto bg-white">
+                  <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto">
                     {social.image && (
                       <img src={social.image} alt={social.name} className="w-12 h-12 object-contain" />
                     )}

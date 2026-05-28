@@ -27,7 +27,7 @@ export const translations = {
       'No es falta de disciplina. Son las creencias que heredaste. Aquí trabajamos los dos niveles: las herramientas y la raíz.',
 
     // About Section
-    about_title: 'Mi historia: de miedos heredados a liderar mis finanzas',
+    about_title: 'Mi historia: transformé mis creencias para liderar mis finanzas',
     about_description:
       'Crecí en Medellín en una familia humilde, cargando miedos heredados sobre el dinero que me llevaban a terminar el mes en cero. Como Comunicadora de la Universidad de Antioquia, planeaba una carrera lejos de las ciencias exactas, pero la vida me llevó a trabajar por más de 3 años en la Facultad de Ciencias Económicas.\n\nEn ese entorno despertó mi interés por las finanzas y cómo podían mejorar mi vida. Al investigar a fondo, descubrí que el dinero no es solo matemáticas; también depende de la psicología y la reestructuración de creencias.\n\nHoy fusiono esa experiencia técnica con mi formación para enseñarte a transformar tu mentalidad, romper bloqueos y dominar tus finanzas.',
     about_pillar_1: 'Psicología del dinero',
@@ -130,7 +130,7 @@ export const translations = {
       "It's not about discipline. It's the beliefs you inherited. Here we work on both levels: the tools and the root.",
 
     // About Section
-    about_title: 'My story: from inherited fears to leading my finances',
+    about_title: 'My story: I transformed my beliefs to lead my finances',
     about_description:
       'I grew up in Medellín in a humble family, carrying inherited fears about money that left me with nothing at the end of each month. As a Communications graduate from the University of Antioquia, I planned a career away from exact sciences, but life led me to work for over 3 years at the Faculty of Economic Sciences.\n\nIn that environment, my interest in finances awakened and how they could improve my life. Through deep research, I discovered that money is not just mathematics; it also depends on psychology and the restructuring of beliefs.\n\nToday I blend that technical experience with my background to teach you how to transform your mindset, break through blocks, and master your finances.',
     about_pillar_1: 'Money Psychology',

@@ -276,7 +276,7 @@ export default function InvestorTestModal({
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-4 py-2 border rounded-lg"
-                  style={{ borderColor: formErrors.name ? '#ef4444' : 'rgba(196, 179, 232, 0.3)' }}
+                  style={{ borderColor: formErrors.name ? '#ef4444' : 'rgba(196, 179, 232, 0.3)', color: 'var(--color-midnight-blue)', backgroundColor: '#ffffff' }}
                 />
                 {formErrors.name && <p className="text-red-500 text-xs mt-1">{formErrors.name}</p>}
               </div>
@@ -289,7 +289,7 @@ export default function InvestorTestModal({
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-4 py-2 border rounded-lg"
-                  style={{ borderColor: formErrors.email ? '#ef4444' : 'rgba(196, 179, 232, 0.3)' }}
+                  style={{ borderColor: formErrors.email ? '#ef4444' : 'rgba(196, 179, 232, 0.3)', color: 'var(--color-midnight-blue)', backgroundColor: '#ffffff' }}
                 />
                 {formErrors.email && <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>}
               </div>
@@ -298,7 +298,7 @@ export default function InvestorTestModal({
                   value={formData.countryCode}
                   onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
                   className="px-3 py-2 border rounded-lg"
-                  style={{ borderColor: 'rgba(196, 179, 232, 0.3)' }}
+                  style={{ borderColor: 'rgba(196, 179, 232, 0.3)', color: 'var(--color-midnight-blue)', backgroundColor: '#ffffff' }}
                 >
                   <option value="+1">+1 US/CA</option>
                   <option value="+34">+34 ES</option>
@@ -314,7 +314,7 @@ export default function InvestorTestModal({
                     onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
                     placeholder={language === 'es' ? 'Tu número' : 'Your number'}
                     className="w-full px-4 py-2 border rounded-lg"
-                    style={{ borderColor: formErrors.whatsapp ? '#ef4444' : 'rgba(196, 179, 232, 0.3)' }}
+                    style={{ borderColor: formErrors.whatsapp ? '#ef4444' : 'rgba(196, 179, 232, 0.3)', color: 'var(--color-midnight-blue)', backgroundColor: '#ffffff' }}
                   />
                 </div>
               </div>

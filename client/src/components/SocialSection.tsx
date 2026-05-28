@@ -24,7 +24,7 @@ export default function SocialSection({ language, translations }: SocialSectionP
       handle: 'Melissa Cuartas 1113',
       url: 'https://www.facebook.com/melissacuartas1113/',
       color: 'from-blue-600 to-blue-500',
-      image: '/manus-storage/facebook-logo_72c6a924.png',
+      image: '/manus-storage/facebook-f-logo_9f8695ce.png',
     },
     {
       name: 'TikTok',

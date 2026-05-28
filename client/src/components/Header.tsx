@@ -104,12 +104,28 @@ export default function Header({ language, onLanguageChange, translations }: Hea
           </div>
 
           {/* CTA Principal Desktop */}
-          <button
-            onClick={() => scrollToSection('resources')}
-            className="hidden sm:block btn-primary text-sm"
-          >
-            {t.cta_free_resource}
-          </button>
+          <div className="hidden sm:flex items-center gap-2">
+            <button
+              onClick={() => scrollToSection('resources')}
+              className="btn-primary text-sm"
+            >
+              {t.cta_free_resource}
+            </button>
+            <a
+              href="https://wa.me/573017361157?text=Hola%20Melissa%2C%20me%20gustar%C3%ADa%20conocer%20m%C3%A1s%20sobre%20tu%20mentor%C3%ADa%20de%20finanzas%20conscientes."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium text-sm transition-all"
+              style={{
+                background: 'linear-gradient(135deg, #25D366, #20BA5A)',
+                color: 'white',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            >
+              {language === 'es' ? 'Chatea conmigo' : 'Chat with me'}
+            </a>
+          </div>
 
           {/* Menú Hamburguesa Móvil */}
           <button
@@ -138,12 +154,28 @@ export default function Header({ language, onLanguageChange, translations }: Hea
                 {item.label}
               </button>
             ))}
-            <button
-              onClick={() => scrollToSection('resources')}
-              className="btn-primary text-sm w-full mt-2"
-            >
-              {t.cta_free_resource}
-            </button>
+            <div className="flex flex-col gap-2 w-full mt-2">
+              <button
+                onClick={() => scrollToSection('resources')}
+                className="btn-primary text-sm w-full"
+              >
+                {t.cta_free_resource}
+              </button>
+              <a
+                href="https://wa.me/573017361157?text=Hola%20Melissa%2C%20me%20gustar%C3%ADa%20conocer%20m%C3%A1s%20sobre%20tu%20mentor%C3%ADa%20de%20finanzas%20conscientes."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium text-sm transition-all w-full"
+                style={{
+                  background: 'linear-gradient(135deg, #25D366, #20BA5A)',
+                  color: 'white',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              >
+                {language === 'es' ? 'Chatea conmigo' : 'Chat with me'}
+              </a>
+            </div>
           </nav>
         </div>
       )}

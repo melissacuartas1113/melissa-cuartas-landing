@@ -77,7 +77,7 @@ export const translations = {
     mentoring_description:
       'Trabajo contigo directamente — revisamos tu situación financiera, identificamos tus creencias limitantes y construimos un plan real que combine herramientas prácticas con trabajo interior. No es una fórmula genérica. Es un proceso a tu medida.',
     mentoring_item_1: '✓ Diagnóstico financiero y emocional completo',
-    mentoring_item_2: '✓ Plan de presupuesto personalizado y herramientas y vehículos de inversión',
+    mentoring_item_2: '✓ Plan de presupuesto personalizado, herramientas y vehículos de inversión',
     mentoring_item_3: '✓ Trabajo de creencias y psicología del dinero',
     mentoring_item_4: '✓ Acompañamiento y seguimiento',
 
@@ -180,7 +180,7 @@ export const translations = {
     mentoring_description:
       "I work with you directly — we review your financial situation, identify your limiting beliefs, and build a real plan that combines practical tools with inner work. It's not a generic formula. It's a process tailored to you.",
     mentoring_item_1: '✓ Complete financial and emotional diagnosis',
-    mentoring_item_2: '✓ Personalized budget plan and investment tools and vehicles',
+    mentoring_item_2: '✓ Personalized budget plan, investment tools and vehicles',
     mentoring_item_3: '✓ Work on beliefs and money psychology',
     mentoring_item_4: '✓ Accompaniment and follow-up',
 

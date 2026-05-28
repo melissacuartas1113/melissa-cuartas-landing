@@ -91,7 +91,7 @@ export const translations = {
 
     // Footer
     footer_all_rights: 'Todos los derechos reservados',
-    footer_tagline: 'CONSCIENCIA · DINERO · EXPANSIÓN',
+    footer_tagline: 'Finanzas · Psicología · Mentalidad',
     footer_privacy: 'Política de privacidad',
     footer_contact: 'Contacto',
 
@@ -194,7 +194,7 @@ export const translations = {
 
     // Footer
     footer_all_rights: 'All rights reserved',
-    footer_tagline: 'CONSCIOUSNESS · MONEY · EXPANSION',
+    footer_tagline: 'Finance · Psychology · Mindset',
     footer_privacy: 'Privacy Policy',
     footer_contact: 'Contact',
 

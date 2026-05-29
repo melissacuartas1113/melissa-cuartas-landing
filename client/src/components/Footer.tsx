@@ -129,13 +129,14 @@ export default function Footer({ language, translations, onLanguageChange }: Foo
           <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6">
             <a
               href="/manus-storage/politica-privacidad_c0002241.pdf"
-              download="Politica-Privacidad-Melissa-Cuartas.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-sm transition-colors"
               style={{ color: 'var(--color-lavender)' }}
               onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-teal)'}
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-lavender)'}
             >
-              {language === 'es' ? 'Descargar Política de Privacidad' : 'Download Privacy Policy'}
+              {language === 'es' ? 'Política de Privacidad' : 'Privacy Policy'}
             </a>
 
             {/* Selector de Idioma */}

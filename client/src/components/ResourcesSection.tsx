@@ -51,7 +51,7 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
       // Descargar el recurso según el tipo
       if (data.resourceType === 'budget') {
         const link = document.createElement('a');
-        link.href = '/manus-storage/presupuesto_consciente_melissa_cuartas(1)(1)_df810446.xlsx';
+        link.href = '/manus-storage/presupuesto_consciente_melissa_cuartas_1c4b6977.xlsx';
         link.download = 'Presupuesto_Consciente_Melissa_Cuartas.xlsx';
         document.body.appendChild(link);
         link.click();

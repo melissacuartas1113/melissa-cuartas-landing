@@ -58,8 +58,9 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
         document.body.removeChild(link);
       } else if (data.resourceType === 'beliefs') {
         const link = document.createElement('a');
-        link.href = '/manus-storage/guia_creencias_limitantes_melissa_cuartas(1)_05ec951c.xlsx';
-        link.download = 'Guia_Creencias_Limitantes_Melissa_Cuartas.xlsx';
+        link.href = '/manus-storage/guia_creencias_limitantes_b1987f24.pdf';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

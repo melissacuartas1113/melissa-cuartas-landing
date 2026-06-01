@@ -262,15 +262,8 @@ export default function CompoundInterestCalculator() {
             {/* Buttons */}
             <div className="flex gap-3 mt-8">
               <button
-                disabled
-                className="flex-1 bg-red-600 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed"
-                title="Los cálculos se actualizan automáticamente"
-              >
-                CALCULAR
-              </button>
-              <button
                 onClick={handleReset}
-                className="flex-1 bg-[#0CBFBF] hover:bg-[#0aa5a5] text-white font-bold py-2 px-4 rounded transition-colors"
+                className="w-full bg-[#0CBFBF] hover:bg-[#0aa5a5] text-white font-bold py-2 px-4 rounded transition-colors"
               >
                 RESTABLECER
               </button>

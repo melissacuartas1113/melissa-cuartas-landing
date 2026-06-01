@@ -18,6 +18,7 @@ export default function Footer({ language, translations, onLanguageChange }: Foo
   const navLinks = [
     { label: t.nav_about, id: 'about' },
     { label: t.nav_resources, id: 'resources' },
+    { label: t.nav_calculator, id: 'calculator' },
     { label: t.nav_mentoring, id: 'mentoring' },
     { label: t.footer_contact, id: 'contact' },
   ];

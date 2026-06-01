@@ -372,12 +372,7 @@ export default function CompoundInterestCalculator() {
               </div>
             </div>
 
-            {/* Footer Note */}
-            <div className="bg-[#F0F3FA] rounded-lg p-4 border border-[#E8EAEF]">
-              <p className="text-xs text-[#5A8FE0] text-center">
-                Esta calculadora proporciona estimaciones educativas. Los resultados reales pueden variar según las condiciones del mercado.
-              </p>
-            </div>
+
           </div>
         </div>
       </div>

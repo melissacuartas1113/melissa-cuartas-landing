@@ -99,7 +99,7 @@ export default function Home() {
 
             {/* Compound Interest Calculator */}
             <div id="calculator">
-              <CompoundInterestCalculator />
+              <CompoundInterestCalculator language={language} translations={translations} />
             </div>
 
       {/* Social Section */}

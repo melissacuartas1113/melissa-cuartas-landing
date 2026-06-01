@@ -13,6 +13,7 @@ import MentoringSection from '@/components/MentoringSection';
 import SocialSection from '@/components/SocialSection';
 import Footer from '@/components/Footer';
 import { translations } from '@/lib/translations';
+import CompoundInterestCalculator from '@/components/CompoundInterestCalculator';
 
 export default function Home() {
   // The userAuth hooks provides authentication state
@@ -95,6 +96,9 @@ export default function Home() {
 
       {/* Mentoring Section */}
       <MentoringSection language={language} translations={translations} />
+
+      {/* Compound Interest Calculator */}
+      <CompoundInterestCalculator />
 
       {/* Social Section */}
       <SocialSection language={language} translations={translations} />

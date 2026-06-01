@@ -40,6 +40,7 @@ export default function Header({ language, onLanguageChange, translations }: Hea
   const navItems = [
     { label: t.nav_about, id: 'about' },
     { label: t.nav_resources, id: 'resources' },
+    { label: t.nav_calculator, id: 'calculator' },
     { label: t.nav_mentoring, id: 'mentoring' },
     { label: t.nav_contact, id: 'contact' },
   ];

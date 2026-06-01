@@ -8,6 +8,7 @@ export const translations = {
     // Navegación
     nav_about: 'Sobre mí',
     nav_resources: 'Recursos',
+    nav_calculator: 'Calculadora',
     nav_mentoring: 'Mentoría',
     nav_contact: 'Contacto',
 
@@ -111,6 +112,7 @@ export const translations = {
     // Navigation
     nav_about: 'About me',
     nav_resources: 'Resources',
+    nav_calculator: 'Calculator',
     nav_mentoring: 'Mentoring',
     nav_contact: 'Contact',
 

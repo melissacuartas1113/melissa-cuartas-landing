@@ -97,8 +97,10 @@ export default function Home() {
       {/* Mentoring Section */}
       <MentoringSection language={language} translations={translations} />
 
-      {/* Compound Interest Calculator */}
-      <CompoundInterestCalculator />
+            {/* Compound Interest Calculator */}
+            <div id="calculator">
+              <CompoundInterestCalculator />
+            </div>
 
       {/* Social Section */}
       <SocialSection language={language} translations={translations} />

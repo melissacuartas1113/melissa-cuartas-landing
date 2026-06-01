@@ -75,4 +75,4 @@
 - [x] Fix division by zero error when annual rate is 0
 - [x] Write Vitest unit tests for calculator math (9 tests)
 - [x] All tests passing (23 total tests)
-- [ ] Save checkpoint with calculator integrated
+- [x] Save checkpoint with calculator integrated

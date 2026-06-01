@@ -304,7 +304,7 @@ export default function CompoundInterestCalculator() {
             {/* Line Chart */}
             <div className="bg-white rounded-lg shadow-lg p-6 border border-[#E8EAEF]">
               <h4 className="text-lg font-bold text-[#0D1B3E] mb-4">Crecimiento del Dinero</h4>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={400}>
                 <LineChart data={calculateCompoundInterest}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E8EAEF" />
                   <XAxis dataKey="year" stroke="#5A8FE0" />
@@ -341,7 +341,7 @@ export default function CompoundInterestCalculator() {
               {/* Pie Chart */}
               <div className="bg-white rounded-lg shadow-lg p-6 border border-[#E8EAEF]">
                 <h4 className="text-lg font-bold text-[#0D1B3E] mb-4">Desglose Final</h4>
-                <ResponsiveContainer width="100%" height={250}>
+                <ResponsiveContainer width="100%" height={320}>
                   <PieChart>
                     <Pie
                       data={pieData}
@@ -365,7 +365,7 @@ export default function CompoundInterestCalculator() {
               {/* Bar Chart */}
               <div className="bg-white rounded-lg shadow-lg p-6 border border-[#E8EAEF]">
                 <h4 className="text-lg font-bold text-[#0D1B3E] mb-4">Año a Año</h4>
-                <ResponsiveContainer width="100%" height={250}>
+                <ResponsiveContainer width="100%" height={320}>
                   <BarChart data={calculateCompoundInterest.filter((_, i) => i % Math.ceil(calculateCompoundInterest.length / 6) === 0)}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#E8EAEF" />
                     <XAxis dataKey="year" stroke="#5A8FE0" />

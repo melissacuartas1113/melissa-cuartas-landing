@@ -301,7 +301,7 @@ export default function CompoundInterestCalculator({ language, translations }: C
           </div>
 
           {/* Results Section - Wrapped for PDF export */}
-          <div ref={reportRef} className="mt-12 space-y-6 bg-white p-6 rounded-lg">
+          <div ref={reportRef} className="lg:col-span-2 mt-12 space-y-6 bg-white p-6 rounded-lg">
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
               <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">

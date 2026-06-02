@@ -124,3 +124,43 @@ export async function markLeadEmailSent(leadId: number) {
     console.error("[Database] Failed to update lead:", error);
   }
 }
+
+
+/**
+ * Get all leads with optional filters
+ */
+export async function getAllLeads(filters?: {
+  dateFrom?: Date;
+  dateTo?: Date;
+  source?: string;
+}) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get leads: database not available");
+    return [];
+  }
+
+  try {
+    let query: any = db.select().from(leads);
+
+    if (filters?.dateFrom) {
+      const { gte } = await import("drizzle-orm");
+      query = query.where(gte(leads.createdAt, filters.dateFrom));
+    }
+
+    if (filters?.dateTo) {
+      const { lte } = await import("drizzle-orm");
+      query = query.where(lte(leads.createdAt, filters.dateTo));
+    }
+
+    if (filters?.source) {
+      query = query.where(eq(leads.source, filters.source));
+    }
+
+    const result = await query;
+    return result;
+  } catch (error) {
+    console.error("[Database] Failed to get leads:", error);
+    return [];
+  }
+}

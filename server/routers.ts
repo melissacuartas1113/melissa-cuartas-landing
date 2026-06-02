@@ -1,10 +1,11 @@
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { publicProcedure, router, protectedProcedure } from "./_core/trpc";
 import { z } from "zod";
-import { saveLead, markLeadEmailSent } from "./db";
+import { saveLead, markLeadEmailSent, getAllLeads } from "./db";
 import { sendLeadNotificationEmail } from "./email";
+import { TRPCError } from "@trpc/server";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -21,6 +22,73 @@ export const appRouter = router({
   }),
 
   leads: router({
+    getAll: protectedProcedure
+      .input(
+        z.object({
+          dateFrom: z.date().optional(),
+          dateTo: z.date().optional(),
+          source: z.string().optional(),
+        })
+      )
+      .query(async ({ ctx, input }) => {
+        // Only admins can view all leads
+        if (ctx.user?.role !== "admin") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Only admins can view leads" });
+        }
+
+        const leads = await getAllLeads({
+          dateFrom: input.dateFrom,
+          dateTo: input.dateTo,
+          source: input.source,
+        });
+
+        return leads;
+      }),
+
+    exportCsv: protectedProcedure
+      .input(
+        z.object({
+          dateFrom: z.date().optional(),
+          dateTo: z.date().optional(),
+          source: z.string().optional(),
+        })
+      )
+      .query(async ({ ctx, input }) => {
+        // Only admins can export leads
+        if (ctx.user?.role !== "admin") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Only admins can export leads" });
+        }
+
+        const leads = await getAllLeads({
+          dateFrom: input.dateFrom,
+          dateTo: input.dateTo,
+          source: input.source,
+        });
+
+        // Generate CSV
+        const headers = ["ID", "Nombre", "Email", "WhatsApp", "País", "Fuente", "Email Enviado", "Fecha Captura"];
+        const rows = leads.map((lead: any) => [
+          lead.id,
+          lead.name,
+          lead.email,
+          lead.whatsapp || "",
+          lead.country || "",
+          lead.source,
+          lead.emailSent ? "Sí" : "No",
+          new Date(lead.createdAt).toLocaleString("es-CO"),
+        ]);
+
+        const csv = [
+          headers.join(","),
+          ...rows.map((row: any[]) => row.map((cell: any) => `"${cell}"`).join(",")),
+        ].join("\n");
+
+        return {
+          csv,
+          filename: `leads-${new Date().toISOString().split("T")[0]}.csv`,
+        };
+      }),
+
     capture: publicProcedure
       .input(
         z.object({

@@ -86,3 +86,18 @@
 - [x] Add bilingual labels (ES/EN) for PDF button
 - [x] Write 7 unit tests for PDF export feature
 - [x] All tests passing (30 total tests)
+
+
+## Admin Dashboard - Leads Management (Completed)
+- [x] Create admin leads page component at `/client/src/pages/AdminLeads.tsx`
+- [x] Add tRPC procedure `leads.getAll` with optional filters (dateFrom, dateTo, source)
+- [x] Add tRPC procedure `leads.exportCsv` to generate CSV download
+- [x] Create LeadsTable component with sortable columns
+- [x] Add date range filter (from/to dates)
+- [x] Add source filter (budget, beliefs, test, all)
+- [x] Implement CSV export functionality
+- [x] Add admin-only route protection in App.tsx
+- [x] Write unit tests for leads.getAll and leads.exportCsv procedures
+- [x] Write unit tests for LeadsTable component
+- [x] Test CSV export with sample data
+- [x] Verify admin access control (only admin users can view)

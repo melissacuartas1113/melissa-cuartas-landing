@@ -280,22 +280,22 @@ export default function CompoundInterestCalculator({ language, translations }: C
           {/* Results Section */}
           <div className="lg:col-span-2 space-y-6">
             {/* Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white rounded-lg shadow-lg p-6 border border-[#E8EAEF]">
-                <p className="text-sm text-[#5A8FE0] mb-2">{t.calculator_final_balance}</p>
-                <p className="text-2xl font-bold text-[#0CBFBF]">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+              <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
+                <p className="text-xs md:text-sm text-[#5A8FE0] mb-1 md:mb-2">{t.calculator_final_balance}</p>
+                <p className="text-lg md:text-2xl font-bold text-[#0CBFBF] break-words">
                   ${finalBalance.toLocaleString(locale)}
                 </p>
               </div>
-              <div className="bg-white rounded-lg shadow-lg p-6 border border-[#E8EAEF]">
-                <p className="text-sm text-[#5A8FE0] mb-2">{t.calculator_total_invested}</p>
-                <p className="text-2xl font-bold text-[#7B5CE7]">
+              <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
+                <p className="text-xs md:text-sm text-[#5A8FE0] mb-1 md:mb-2">{t.calculator_total_invested}</p>
+                <p className="text-lg md:text-2xl font-bold text-[#7B5CE7] break-words">
                   ${totalContributions.toLocaleString(locale)}
                 </p>
               </div>
-              <div className="bg-white rounded-lg shadow-lg p-6 border border-[#E8EAEF]">
-                <p className="text-sm text-[#5A8FE0] mb-2">{t.calculator_interest_earned}</p>
-                <p className="text-2xl font-bold text-[#5A8FE0]">
+              <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
+                <p className="text-xs md:text-sm text-[#5A8FE0] mb-1 md:mb-2">{t.calculator_interest_earned}</p>
+                <p className="text-lg md:text-2xl font-bold text-[#5A8FE0] break-words">
                   ${Math.max(0, totalInterest).toLocaleString(locale)}
                 </p>
               </div>
@@ -304,13 +304,13 @@ export default function CompoundInterestCalculator({ language, translations }: C
             {/* Charts */}
             <div className="space-y-6">
               {/* Line Chart */}
-              <div className="bg-white rounded-lg shadow-lg p-6 border border-[#E8EAEF]">
-                <h4 className="text-lg font-bold text-[#0D1B3E] mb-4">{t.calculator_growth}</h4>
-                <ResponsiveContainer width="100%" height={400}>
-                  <LineChart data={calculateCompoundInterest} margin={{ top: 5, right: 30, left: 60, bottom: 5 }}>
+              <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
+                <h4 className="text-base md:text-lg font-bold text-[#0D1B3E] mb-3 md:mb-4">{t.calculator_growth}</h4>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={calculateCompoundInterest} margin={{ top: 5, right: 20, left: 40, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" label={{ value: 'Años / Years', position: 'insideBottomRight', offset: -5 }} />
-                    <YAxis width={60} />
+                    <YAxis width={40} />
                     <Tooltip formatter={(value) => `$${Number(value).toLocaleString(locale)}`} />
                     <Legend />
                     <Line type="monotone" dataKey="balance" stroke="#0CBFBF" name={t.calculator_final_balance} strokeWidth={2} />
@@ -320,9 +320,9 @@ export default function CompoundInterestCalculator({ language, translations }: C
               </div>
 
               {/* Pie Chart */}
-              <div className="bg-white rounded-lg shadow-lg p-6 border border-[#E8EAEF]">
-                <h4 className="text-lg font-bold text-[#0D1B3E] mb-4">{t.calculator_breakdown}</h4>
-                <ResponsiveContainer width="100%" height={320}>
+              <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
+                <h4 className="text-base md:text-lg font-bold text-[#0D1B3E] mb-3 md:mb-4">{t.calculator_breakdown}</h4>
+                <ResponsiveContainer width="100%" height={280}>
                   <PieChart margin={{ top: 5, right: 30, left: 30, bottom: 5 }}>
                     <Pie
                       data={pieData}
@@ -344,13 +344,13 @@ export default function CompoundInterestCalculator({ language, translations }: C
               </div>
 
               {/* Bar Chart */}
-              <div className="bg-white rounded-lg shadow-lg p-6 border border-[#E8EAEF]">
-                <h4 className="text-lg font-bold text-[#0D1B3E] mb-4">{t.calculator_year_by_year}</h4>
-                <ResponsiveContainer width="100%" height={320}>
-                  <BarChart data={calculateCompoundInterest} margin={{ top: 5, right: 30, left: 60, bottom: 5 }}>
+              <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
+                <h4 className="text-base md:text-lg font-bold text-[#0D1B3E] mb-3 md:mb-4">{t.calculator_year_by_year}</h4>
+                <ResponsiveContainer width="100%" height={280}>
+                  <BarChart data={calculateCompoundInterest} margin={{ top: 5, right: 20, left: 40, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" label={{ value: 'Años / Years', position: 'insideBottomRight', offset: -5 }} />
-                    <YAxis width={60} />
+                    <YAxis width={40} />
                     <Tooltip formatter={(value) => `$${Number(value).toLocaleString(locale)}`} />
                     <Legend />
                     <Bar dataKey="principal" fill="#7B5CE7" name={t.calculator_principal} />

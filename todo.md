@@ -101,3 +101,12 @@
 - [x] Write unit tests for LeadsTable component
 - [x] Test CSV export with sample data
 - [x] Verify admin access control (only admin users can view)
+
+
+## Cloudflare Deployment Fix (Completed)
+- [x] Identificar error de "Invalid URL" en Cloudflare
+- [x] Proteger Map.tsx para validar API_KEY y FORGE_BASE_URL
+- [x] Proteger const.ts para validar VITE_OAUTH_PORTAL_URL y VITE_APP_ID
+- [x] Agregar manejo de errores cuando variables de entorno están vacías
+- [x] Verificar que todos los tests pasan (43 tests)
+- [x] Verificar que el servidor local sigue funcionando

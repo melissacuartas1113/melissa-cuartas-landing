@@ -102,9 +102,19 @@ export default function Footer({ language, translations, onLanguageChange }: Foo
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 rounded-lg flex items-center justify-center transition-all hover:scale-110"
+                  style={{
+                    background: 'linear-gradient(135deg, var(--color-purple), var(--color-teal))',
+                    color: 'white',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = '0.8';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = '1';
+                  }}
                   title={social.label}
                 >
-                  <img src={social.image} alt={social.label} className="w-6 h-6 object-contain" />
+                  <img src={social.image} alt={social.label} className="w-6 h-6 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
                 </a>
               ))}
             </div>

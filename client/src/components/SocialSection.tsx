@@ -81,9 +81,9 @@ export default function SocialSection({ language, translations }: SocialSectionP
                 {/* Contenido */}
                 <div className="relative z-10 space-y-4 text-center">
                   {/* Icono */}
-                  <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto">
+                  <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto" style={{ background: 'linear-gradient(135deg, var(--color-purple), var(--color-teal))' }}>
                     {social.image && (
-                      <img src={social.image} alt={social.name} className="w-12 h-12 object-contain" />
+                      <img src={social.image} alt={social.name} className="w-12 h-12 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
                     )}
                   </div>
 

@@ -322,15 +322,15 @@ export default function CompoundInterestCalculator({ language, translations }: C
               {/* Pie Chart */}
               <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
                 <h4 className="text-base md:text-lg font-bold text-[#0D1B3E] mb-3 md:mb-4">{t.calculator_breakdown}</h4>
-                <ResponsiveContainer width="100%" height={280}>
-                  <PieChart margin={{ top: 5, right: 30, left: 30, bottom: 5 }}>
+                <ResponsiveContainer width="100%" height={320}>
+                  <PieChart margin={{ top: 10, right: 60, left: 60, bottom: 10 }}>
                     <Pie
                       data={pieData}
                       cx="50%"
                       cy="50%"
                       labelLine={false}
                       label={({ name, value }) => `${name}: $${Number(value).toLocaleString(locale)}`}
-                      outerRadius={80}
+                      outerRadius={70}
                       fill="#8884d8"
                       dataKey="value"
                     >

@@ -2,6 +2,7 @@ import { ENV } from "./_core/env";
 
 const RESEND_API_URL = "https://api.resend.com/emails";
 const OWNER_EMAIL = "melissacuartas1113@gmail.com";
+const FROM_EMAIL = "melissacuartas1113@gmail.com";
 
 export interface SendLeadEmailParams {
   name: string;

@@ -119,8 +119,8 @@ export default function LeadModal({
 
       toast.success(
         language === 'es'
-          ? '¡Lead capturado exitosamente!'
-          : 'Lead captured successfully!'
+          ? '¡Gracias! Revisa tu correo.'
+          : 'Thanks! Check your email.'
       );
     } catch (error) {
       console.error('Form submission error:', error);

@@ -45,18 +45,20 @@ export const appRouter = router({
           // Get the inserted lead ID
           const leadId = (result as any).insertId;
 
-          // Send email notification
-          const emailSent = await sendLeadNotificationEmail(input);
-
-          // Mark email as sent if successful
-          if (emailSent && leadId) {
-            await markLeadEmailSent(leadId);
-          }
+          // Send email notification asynchronously (fire and forget)
+          sendLeadNotificationEmail(input).then((emailSent) => {
+            if (emailSent && leadId) {
+              markLeadEmailSent(leadId).catch((err) => {
+                console.error("[Leads] Error marking email sent:", err);
+              });
+            }
+          }).catch((err) => {
+            console.error("[Leads] Error sending email:", err);
+          });
 
           return {
             success: true,
             leadId,
-            emailSent,
           };
         } catch (error) {
           console.error("[Leads] Error capturing lead:", error);

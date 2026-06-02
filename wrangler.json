@@ -1,4 +1,7 @@
 {
   "name": "melissa-cuartas-landing",
-  "pages_build_output_dir": "client/dist"
+  "pages_build_output_dir": "client/dist",
+  "build": {
+    "command": "pnpm --filter client build"
+  }
 }

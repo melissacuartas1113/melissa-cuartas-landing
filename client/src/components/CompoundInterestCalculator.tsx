@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import {
   LineChart,
   Line,
@@ -14,6 +14,7 @@ import {
   Pie,
   Cell,
 } from 'recharts';
+import html2pdf from 'html2pdf.js';
 
 interface CompoundInterestCalculatorProps {
   language: 'es' | 'en';
@@ -27,6 +28,7 @@ export default function CompoundInterestCalculator({ language, translations }: C
   const [years, setYears] = useState(10);
   const [annualRate, setAnnualRate] = useState(7);
   const [compoundingFrequency, setCompoundingFrequency] = useState(12);
+  const reportRef = useRef<HTMLDivElement>(null);
 
   const compoundingOptions = {
     [t.calculator_annually]: 1,
@@ -92,6 +94,21 @@ export default function CompoundInterestCalculator({ language, translations }: C
     setYears(10);
     setAnnualRate(7);
     setCompoundingFrequency(12);
+  };
+
+  const handleDownloadPDF = () => {
+    if (!reportRef.current) return;
+
+    const element = reportRef.current;
+    const opt: any = {
+      margin: 10,
+      filename: `calculator-results-${new Date().toLocaleDateString()}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
+    };
+
+    html2pdf().set(opt).from(element).save();
   };
 
   const locale = language === 'es' ? 'es-ES' : 'en-US';
@@ -269,16 +286,22 @@ export default function CompoundInterestCalculator({ language, translations }: C
             {/* Buttons */}
             <div className="flex gap-3 mt-8">
               <button
+                onClick={handleDownloadPDF}
+                className="flex-1 bg-[#7B5CE7] hover:bg-[#6a4dd1] text-white font-bold py-2 px-4 rounded transition-colors"
+              >
+                {t.calculator_download_pdf || 'Descargar PDF'}
+              </button>
+              <button
                 onClick={handleReset}
-                className="w-full bg-[#0CBFBF] hover:bg-[#0aa5a5] text-white font-bold py-2 px-4 rounded transition-colors"
+                className="flex-1 bg-[#0CBFBF] hover:bg-[#0aa5a5] text-white font-bold py-2 px-4 rounded transition-colors"
               >
                 {t.calculator_reset}
               </button>
             </div>
           </div>
 
-          {/* Results Section */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* Results Section - Wrapped for PDF export */}
+          <div ref={reportRef} className="mt-12 space-y-6 bg-white p-6 rounded-lg">
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
               <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">

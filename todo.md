@@ -76,3 +76,13 @@
 - [x] Write Vitest unit tests for calculator math (9 tests)
 - [x] All tests passing (23 total tests)
 - [x] Save checkpoint with calculator integrated
+
+## PDF Export for Calculator (Completed)
+- [x] Install html2pdf or similar library for PDF generation
+- [x] Create PDF export function with calculator results
+- [x] Add Download PDF button to calculator
+- [x] Include charts and summary data in PDF
+- [x] Test PDF download functionality
+- [x] Add bilingual labels (ES/EN) for PDF button
+- [x] Write 7 unit tests for PDF export feature
+- [x] All tests passing (30 total tests)

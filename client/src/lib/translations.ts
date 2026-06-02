@@ -84,7 +84,7 @@ export const translations = {
 
     // Social Section
     social_title: 'Sígueme en redes',
-    social_subtitle: 'Contenido diario sobre finanzas conscientes, psicología del dinero y transformación.',
+    social_subtitle: 'Contenido sobre finanzas, psicología del dinero y mentalidad.',
 
     // Testimonials Section
     testimonials_title: 'Lo que dicen quienes ya empezaron el camino',
@@ -221,7 +221,7 @@ export const translations = {
 
     // Social Section
     social_title: 'Follow me on social media',
-    social_subtitle: 'Daily content about conscious finances, money psychology and transformation.',
+    social_subtitle: 'Content on finance, money psychology and mindset.',
 
     // Testimonials Section
     testimonials_title: 'What those who have already started the journey say',

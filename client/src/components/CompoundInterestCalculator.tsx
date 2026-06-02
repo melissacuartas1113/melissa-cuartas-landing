@@ -329,7 +329,6 @@ export default function CompoundInterestCalculator({ language, translations }: C
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ name, value }) => `${name}: $${Number(value).toLocaleString(locale)}`}
                       outerRadius={70}
                       fill="#8884d8"
                       dataKey="value"
@@ -341,6 +340,17 @@ export default function CompoundInterestCalculator({ language, translations }: C
                     <Tooltip formatter={(value) => `$${Number(value).toLocaleString(locale)}`} />
                   </PieChart>
                 </ResponsiveContainer>
+                {/* Legend below chart */}
+                <div className="mt-4 space-y-2">
+                  {pieData.map((entry, index) => (
+                    <div key={`legend-${index}`} className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
+                      <span className="text-sm text-[#0D1B3E]">
+                        {entry.name}: <span className="font-bold text-[#0CBFBF]">${Number(entry.value).toLocaleString(locale)}</span>
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Bar Chart */}

@@ -4,7 +4,7 @@
   "installCommand": "pnpm install",
   "framework": "vite",
   "outputDirectory": "dist/public",
-  "public": "client/public",
+  "public": false,
   "env": {
     "NODE_ENV": "production"
   },

@@ -101,10 +101,10 @@ export default function CompoundInterestCalculator({ language, translations }: C
 
     const element = reportRef.current;
     const opt: any = {
-      margin: 10,
+      margin: [8, 8, 8, 8],
       filename: `calculator-results-${new Date().toLocaleDateString()}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
+      html2canvas: { scale: 2, useCORS: true, allowTaint: true, windowHeight: 1200 },
       jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
     };
 
@@ -306,19 +306,19 @@ export default function CompoundInterestCalculator({ language, translations }: C
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
               <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
                 <p className="text-xs md:text-sm text-[#5A8FE0] mb-1 md:mb-2">{t.calculator_final_balance}</p>
-                <p className="text-lg md:text-2xl font-bold text-[#0CBFBF] break-words">
+                <p className="text-sm md:text-xl font-bold text-[#0CBFBF] break-words overflow-hidden">
                   ${finalBalance.toLocaleString(locale)}
                 </p>
               </div>
               <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
                 <p className="text-xs md:text-sm text-[#5A8FE0] mb-1 md:mb-2">{t.calculator_total_invested}</p>
-                <p className="text-lg md:text-2xl font-bold text-[#7B5CE7] break-words">
+                <p className="text-sm md:text-xl font-bold text-[#7B5CE7] break-words overflow-hidden">
                   ${totalContributions.toLocaleString(locale)}
                 </p>
               </div>
               <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
                 <p className="text-xs md:text-sm text-[#5A8FE0] mb-1 md:mb-2">{t.calculator_interest_earned}</p>
-                <p className="text-lg md:text-2xl font-bold text-[#5A8FE0] break-words">
+                <p className="text-sm md:text-xl font-bold text-[#5A8FE0] break-words overflow-hidden">
                   ${Math.max(0, totalInterest).toLocaleString(locale)}
                 </p>
               </div>

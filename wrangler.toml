@@ -1,0 +1,74 @@
+name = "melissa-cuartas-api"
+type = "service"
+main = "dist/index.js"
+compatibility_date = "2024-12-16"
+
+[env.production]
+name = "melissa-cuartas-api-prod"
+
+[env.staging]
+name = "melissa-cuartas-api-staging"
+
+# Environment variables
+[env.production.vars]
+NODE_ENV = "production"
+
+[env.staging.vars]
+NODE_ENV = "staging"
+
+# Bindings for environment variables from Cloudflare
+[[env.production.vars.bindings]]
+binding = "DATABASE_URL"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "JWT_SECRET"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "VITE_APP_ID"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "OAUTH_SERVER_URL"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "VITE_OAUTH_PORTAL_URL"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "RESEND_API_KEY"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "BUILT_IN_FORGE_API_KEY"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "BUILT_IN_FORGE_API_URL"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "VITE_FRONTEND_FORGE_API_KEY"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "VITE_FRONTEND_FORGE_API_URL"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "VITE_ANALYTICS_ENDPOINT"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "VITE_ANALYTICS_WEBSITE_ID"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "OWNER_NAME"
+type = "secret"
+
+[[env.production.vars.bindings]]
+binding = "OWNER_OPEN_ID"
+type = "secret"

@@ -67,6 +67,15 @@ export const appRouter = router({
 
         // Generate CSV
         const headers = ["ID", "Nombre", "Email", "WhatsApp", "País", "Fuente", "Email Enviado", "Fecha Captura"];
+        
+        const escapeCsvField = (field: any) => {
+          const str = String(field || "");
+          if (str.includes(",") || str.includes("\n") || str.includes('"')) {
+            return `"${str.replace(/"/g, '""')}"`;
+          }
+          return str;
+        };
+        
         const rows = leads.map((lead: any) => [
           lead.id,
           lead.name,
@@ -79,8 +88,8 @@ export const appRouter = router({
         ]);
 
         const csv = [
-          headers.join(","),
-          ...rows.map((row: any[]) => row.map((cell: any) => `"${cell}"`).join(",")),
+          headers.map(escapeCsvField).join(","),
+          ...rows.map((row: any[]) => row.map(escapeCsvField).join(",")),
         ].join("\n");
 
         return {

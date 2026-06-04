@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import AdminLeads from "./pages/AdminLeads";
+import LeadsDownload from "./pages/LeadsDownload";
 import WhatsAppButton from "./components/WhatsAppButton";
 
 function Router() {
@@ -14,6 +15,7 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/admin/leads"} component={AdminLeads} />
+      <Route path={"/leads-download"} component={LeadsDownload} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

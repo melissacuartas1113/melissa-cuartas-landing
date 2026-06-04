@@ -107,27 +107,62 @@ export default function CompoundInterestCalculator({ language, translations }: C
       const element = reportRef.current;
       const filename = `calculator-results-${new Date().toLocaleDateString()}.pdf`;
       
-      const opt = {
-        margin: 5,
-        filename: filename,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 1.5, useCORS: true, allowTaint: true, logging: false, windowHeight: 1200 },
-        jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
-      };
+      // Try client-side PDF generation first
+      if (typeof html2pdf !== 'undefined') {
+        try {
+          const opt = {
+            margin: 5,
+            filename: filename,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 1.5, useCORS: true, allowTaint: true, logging: false, windowHeight: 1200 },
+            jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
+          };
 
-      if (typeof html2pdf === 'undefined') {
-        console.error('html2pdf not available');
-        alert(language === 'es' ? 'Error: Librería no disponible' : 'Error: Library not available');
-        return;
+          const htmlToPdf = (html2pdf as any).default || html2pdf;
+          await htmlToPdf().set(opt).from(element).save();
+          return; // Success
+        } catch (clientError) {
+          console.warn('Client-side PDF generation failed, trying server-side:', clientError);
+          // Fall through to server-side generation
+        }
       }
 
-      const htmlToPdf = (html2pdf as any).default || html2pdf;
-      await htmlToPdf().set(opt).from(element).save();
+      // Fallback: Server-side PDF generation
+      console.log('Using server-side PDF generation as fallback');
+      const htmlContent = element.innerHTML;
+      
+      // Send to server for PDF generation
+      const response = await fetch('/api/generate-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          html: htmlContent,
+          filename: filename,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      // Download the PDF from server
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('PDF error:', error);
-      alert(language === 'es' ? 'Error al descargar PDF' : 'Error downloading PDF');
+      console.error('PDF download error:', error);
+      alert(language === 'es' ? 'Error al descargar PDF. Intenta de nuevo.' : 'Error downloading PDF. Try again.');
     }
   };
+
 
   const locale = language === 'es' ? 'es-ES' : 'en-US';
 

@@ -38,25 +38,115 @@ async function startServer() {
   registerOAuthRoutes(app);
 
   // Download endpoint for Excel files with correct MIME type
-  app.get('/api/download/:type', (req, res) => {
+  // This endpoint fetches the file from storage and serves it directly to preserve headers
+  app.get('/api/download/:type', async (req, res) => {
     const { type } = req.params;
-    let storageUrl = '';
+    let storageKey = '';
     let filename = '';
 
     if (type === 'budget') {
-      storageUrl = '/manus-storage/presupuesto_consciente_melissa_cuartas_1c4b6977.xlsx';
+      storageKey = 'presupuesto_consciente_melissa_cuartas_1c4b6977.xlsx';
       filename = 'Presupuesto_Consciente_Melissa_Cuartas.xlsx';
     } else if (type === 'beliefs') {
-      storageUrl = '/manus-storage/guia_creencias_limitantes_melissa_cuartas(2)_c03e7a38.xlsx';
+      storageKey = 'guia_creencias_limitantes_melissa_cuartas(2)_c03e7a38.xlsx';
       filename = 'Guia_Creencias_Limitantes_Melissa_Cuartas.xlsx';
     } else {
       return res.status(400).json({ error: 'Invalid file type' });
     }
 
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-    res.redirect(storageUrl);
+    try {
+      // Get presigned URL from storage backend
+      const forgeUrl = new URL('v1/storage/presign/get', (process.env.BUILT_IN_FORGE_API_URL || '').replace(/\/+$/, '') + '/');
+      forgeUrl.searchParams.set('path', storageKey);
+
+      const forgeResp = await fetch(forgeUrl, {
+        headers: { Authorization: `Bearer ${process.env.BUILT_IN_FORGE_API_KEY}` },
+      });
+
+      if (!forgeResp.ok) {
+        console.error(`[Download] forge error: ${forgeResp.status}`);
+        return res.status(502).json({ error: 'Storage backend error' });
+      }
+
+      const { url: presignedUrl } = (await forgeResp.json()) as { url: string };
+      if (!presignedUrl) {
+        return res.status(502).json({ error: 'Empty signed URL' });
+      }
+
+      // Fetch the actual file from the presigned URL
+      const fileResp = await fetch(presignedUrl);
+      if (!fileResp.ok) {
+        console.error(`[Download] file fetch error: ${fileResp.status}`);
+        return res.status(502).json({ error: 'File fetch error' });
+      }
+
+      const fileBuffer = await fileResp.arrayBuffer();
+
+      // Set headers for direct download (these will survive in in-app browsers)
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.setHeader('Content-Length', fileBuffer.byteLength);
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+
+      // Send file directly
+      res.send(Buffer.from(fileBuffer));
+    } catch (error) {
+      console.error('[Download] error:', error);
+      res.status(500).json({ error: 'Download failed' });
+    }
   });
+
+  // PDF generation endpoint for calculator (fallback for in-app browsers)
+  app.post('/api/generate-pdf', async (req, res) => {
+    try {
+      const { html, filename } = req.body;
+
+      if (!html) {
+        return res.status(400).json({ error: 'Missing HTML content' });
+      }
+
+      // Import pdfkit dynamically
+      const PDFDocument = (await import('pdfkit')).default;
+      
+      // Create a PDF document
+      const doc = new PDFDocument({
+        size: 'A4',
+        margin: 20,
+      });
+
+      // Set response headers for PDF download
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+
+      // Pipe PDF to response
+      doc.pipe(res);
+
+      // Extract text from HTML and add to PDF
+      doc.fontSize(14).text('Compound Interest Calculator Results', { align: 'center' });
+      doc.moveDown();
+      doc.fontSize(10);
+      
+      // Simple HTML to text conversion (remove HTML tags)
+      const textContent = html
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      
+      doc.text(textContent, { align: 'left', width: 500 });
+      doc.moveDown();
+      doc.fontSize(8).text(`Generated on ${new Date().toLocaleString()}`, { align: 'center' });
+
+      // Finalize PDF
+      doc.end();
+    } catch (error) {
+      console.error('[PDF] error:', error);
+      res.status(500).json({ error: 'PDF generation failed' });
+    }
+  });
+
   // tRPC API
   app.use(
     "/api/trpc",

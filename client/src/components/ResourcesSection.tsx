@@ -46,8 +46,9 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
   const handleFormSubmit = async (data: LeadFormData) => {
     try {
       console.log('Lead data:', data);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
+      
+      // CRITICAL: Trigger download IMMEDIATELY (ligado al gesto del usuario)
+      // This must happen synchronously before any async operations for in-app browsers
       let url = '';
       let filename = '';
 
@@ -59,6 +60,8 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
         filename = 'Guia_Creencias_Limitantes_Melissa_Cuartas.xlsx';
       }
 
+      // Download immediately - this is critical for in-app browsers
+      // The link.click() must be called synchronously in response to user action
       if (url) {
         const link = document.createElement('a');
         link.href = url;
@@ -68,10 +71,22 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
         link.click();
         document.body.removeChild(link);
       }
+
+      // Now capture the lead asynchronously (after download is triggered)
+      // This doesn't need to complete before closing the modal
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      
+      // Call onSubmit if provided (for backwards compatibility)
+      await onSubmit(data);
     } catch (error) {
       console.error('Error submitting form:', error);
       alert(language === 'es' ? 'Hubo un error. Intenta de nuevo.' : 'There was an error. Try again.');
     }
+  };
+
+  const onSubmit = async (data: LeadFormData) => {
+    // This is a placeholder - the actual submission happens in LeadModal
+    // We're just ensuring the download happened first
   };
 
   return (

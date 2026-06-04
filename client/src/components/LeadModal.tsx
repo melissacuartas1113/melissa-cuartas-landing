@@ -93,17 +93,23 @@ export default function LeadModal({
 
     setIsLoading(true);
     try {
-      // Send lead to backend
-      await captureLead.mutateAsync({
-        name: formData.name,
-        email: formData.email,
-        whatsapp: formData.whatsapp,
-        country: formData.countryCode,
-        source: resourceType,
-      });
-
-      // Also call the original onSubmit for resource download
+      // CRITICAL: Call onSubmit FIRST (which triggers download immediately)
+      // This must happen before any async operations for in-app browsers
       await onSubmit(formData);
+
+      // Then capture the lead asynchronously (doesn't block download)
+      try {
+        await captureLead.mutateAsync({
+          name: formData.name,
+          email: formData.email,
+          whatsapp: formData.whatsapp,
+          country: formData.countryCode,
+          source: resourceType,
+        });
+      } catch (captureError) {
+        // Log but don't fail if lead capture fails
+        console.error('Lead capture error:', captureError);
+      }
 
       setFormData({
         name: '',
@@ -126,8 +132,8 @@ export default function LeadModal({
       console.error('Form submission error:', error);
       toast.error(
         language === 'es'
-          ? 'Error al capturar el lead'
-          : 'Error capturing lead'
+          ? 'Error al descargar recurso'
+          : 'Error downloading resource'
       );
     } finally {
       setIsLoading(false);

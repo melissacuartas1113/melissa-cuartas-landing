@@ -109,7 +109,7 @@ export default function LeadModal({
       }
 
       // STEP 2: Trigger download AFTER lead is captured
-      // Use window.open() to open in new tab (doesn't interrupt page)
+      // Use window.open() with fallback to window.location for TikTok compatibility
       let downloadUrl = '';
 
       if (resourceType === 'budget') {
@@ -118,9 +118,20 @@ export default function LeadModal({
         downloadUrl = '/api/download/beliefs';
       }
 
-      // Open download in new tab/window (works in in-app browsers)
+      // Try window.open() first (works in Instagram)
+      // If it fails or returns null, use window.location (fallback for TikTok)
       if (downloadUrl) {
-        window.open(downloadUrl, '_blank');
+        try {
+          const newWindow = window.open(downloadUrl, '_blank');
+          // If window.open() was blocked or failed, use fallback
+          if (!newWindow) {
+            window.location.href = downloadUrl;
+          }
+        } catch (e) {
+          // If window.open() throws error, use fallback
+          console.warn('window.open() failed, using fallback:', e);
+          window.location.href = downloadUrl;
+        }
       }
 
       setFormData({

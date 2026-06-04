@@ -21,7 +21,7 @@ export default function MentoringSection({ language, translations }: MentoringSe
   ];
 
   const whatsappLink =
-    'https://wa.me/573011736115?text=' +
+    'https://wa.me/573017361157?text=' +
     encodeURIComponent(
       language === 'es'
         ? 'Hola Melissa, quiero saber más sobre la mentoría'

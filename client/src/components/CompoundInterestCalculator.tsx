@@ -96,7 +96,7 @@ export default function CompoundInterestCalculator({ language, translations }: C
     setCompoundingFrequency(12);
   };
 
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
     if (!reportRef.current) {
       console.error('Report reference not found');
       alert(language === 'es' ? 'Error: No se encontró el contenido' : 'Error: Content not found');
@@ -111,22 +111,20 @@ export default function CompoundInterestCalculator({ language, translations }: C
         margin: 10,
         filename: filename,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, allowTaint: true },
+        html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false },
         jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
       };
 
-      if (!html2pdf) {
-        console.error('html2pdf not loaded');
+      if (typeof html2pdf === 'undefined') {
+        console.error('html2pdf not available');
         alert(language === 'es' ? 'Error: Librería no disponible' : 'Error: Library not available');
         return;
       }
 
-      (html2pdf as any)().set(opt).from(element).save().catch((err: any) => {
-        console.error('PDF error:', err);
-        alert(language === 'es' ? 'Error al generar PDF' : 'Error generating PDF');
-      });
+      const htmlToPdf = (html2pdf as any).default || html2pdf;
+      await htmlToPdf().set(opt).from(element).save();
     } catch (error) {
-      console.error('Error:', error);
+      console.error('PDF error:', error);
       alert(language === 'es' ? 'Error al descargar PDF' : 'Error downloading PDF');
     }
   };

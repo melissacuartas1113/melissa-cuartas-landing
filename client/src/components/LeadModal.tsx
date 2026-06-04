@@ -253,6 +253,18 @@ export default function LeadModal({
             {errors.whatsapp && <p className="text-red-500 text-xs mt-1">{errors.whatsapp}</p>}
           </div>
 
+
+          {/* TikTok Warning */}
+          {isTikTokBrowser() && (
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+              <p className="text-sm text-yellow-800">
+                {language === 'es'
+                  ? '⚠️ Estás en TikTok. Después de llenar este formulario, abre el link en tu navegador para descargar.'
+                  : '⚠️ You are on TikTok. After filling this form, open the link in your browser to download.'}
+              </p>
+            </div>
+          )}
+
           {/* Checkbox */}
           <div className="flex items-start gap-3">
             <input

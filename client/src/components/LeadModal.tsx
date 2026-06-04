@@ -93,23 +93,8 @@ export default function LeadModal({
 
     setIsLoading(true);
     try {
-      // STEP 1: Trigger download IMMEDIATELY (synchronously)
-      // This MUST happen before any async operations
-      let downloadUrl = '';
-
-      if (resourceType === 'budget') {
-        downloadUrl = '/api/download/budget';
-      } else if (resourceType === 'beliefs') {
-        downloadUrl = '/api/download/beliefs';
-      }
-
-      // Download using window.location (works in in-app browsers)
-      // This is more reliable than link.click() in restricted environments
-      if (downloadUrl) {
-        window.location.href = downloadUrl;
-      }
-
-      // STEP 2: Capture the lead asynchronously (doesn't block download)
+      // STEP 1: Capture the lead FIRST (send email)
+      // This must complete before we trigger download
       try {
         await captureLead.mutateAsync({
           name: formData.name,
@@ -119,8 +104,23 @@ export default function LeadModal({
           source: resourceType,
         });
       } catch (captureError) {
-        // Log but don't fail if lead capture fails
         console.error('Lead capture error:', captureError);
+        // Don't fail - still try to download
+      }
+
+      // STEP 2: Trigger download AFTER lead is captured
+      // Use window.open() to open in new tab (doesn't interrupt page)
+      let downloadUrl = '';
+
+      if (resourceType === 'budget') {
+        downloadUrl = '/api/download/budget';
+      } else if (resourceType === 'beliefs') {
+        downloadUrl = '/api/download/beliefs';
+      }
+
+      // Open download in new tab/window (works in in-app browsers)
+      if (downloadUrl) {
+        window.open(downloadUrl, '_blank');
       }
 
       setFormData({
@@ -144,8 +144,8 @@ export default function LeadModal({
       console.error('Form submission error:', error);
       toast.error(
         language === 'es'
-          ? 'Error al descargar recurso'
-          : 'Error downloading resource'
+          ? 'Error al procesar tu solicitud'
+          : 'Error processing your request'
       );
     } finally {
       setIsLoading(false);

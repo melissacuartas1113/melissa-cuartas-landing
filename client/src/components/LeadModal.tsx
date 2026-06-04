@@ -96,25 +96,17 @@ export default function LeadModal({
       // STEP 1: Trigger download IMMEDIATELY (synchronously)
       // This MUST happen before any async operations
       let downloadUrl = '';
-      let downloadFilename = '';
 
       if (resourceType === 'budget') {
         downloadUrl = '/api/download/budget';
-        downloadFilename = 'Presupuesto_Consciente_Melissa_Cuartas.xlsx';
       } else if (resourceType === 'beliefs') {
         downloadUrl = '/api/download/beliefs';
-        downloadFilename = 'Guia_Creencias_Limitantes_Melissa_Cuartas.xlsx';
       }
 
-      // Download immediately - synchronous, tied to user action
+      // Download using window.location (works in in-app browsers)
+      // This is more reliable than link.click() in restricted environments
       if (downloadUrl) {
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = downloadFilename;
-        link.setAttribute('download', downloadFilename);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        window.location.href = downloadUrl;
       }
 
       // STEP 2: Capture the lead asynchronously (doesn't block download)

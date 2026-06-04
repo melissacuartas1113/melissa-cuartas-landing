@@ -93,11 +93,31 @@ export default function LeadModal({
 
     setIsLoading(true);
     try {
-      // CRITICAL: Call onSubmit FIRST (which triggers download immediately)
-      // This must happen before any async operations for in-app browsers
-      await onSubmit(formData);
+      // STEP 1: Trigger download IMMEDIATELY (synchronously)
+      // This MUST happen before any async operations
+      let downloadUrl = '';
+      let downloadFilename = '';
 
-      // Then capture the lead asynchronously (doesn't block download)
+      if (resourceType === 'budget') {
+        downloadUrl = '/api/download/budget';
+        downloadFilename = 'Presupuesto_Consciente_Melissa_Cuartas.xlsx';
+      } else if (resourceType === 'beliefs') {
+        downloadUrl = '/api/download/beliefs';
+        downloadFilename = 'Guia_Creencias_Limitantes_Melissa_Cuartas.xlsx';
+      }
+
+      // Download immediately - synchronous, tied to user action
+      if (downloadUrl) {
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = downloadFilename;
+        link.setAttribute('download', downloadFilename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      // STEP 2: Capture the lead asynchronously (doesn't block download)
       try {
         await captureLead.mutateAsync({
           name: formData.name,

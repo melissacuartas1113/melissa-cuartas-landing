@@ -43,28 +43,38 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
     },
   ];
 
+  const downloadFile = (url: string, filename: string) => {
+    try {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      
+      link.dispatchEvent(new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+      }));
+      
+      setTimeout(() => {
+        document.body.removeChild(link);
+      }, 100);
+    } catch (error) {
+      console.error('Download error:', error);
+      window.open(url, '_blank');
+    }
+  };
+
   const handleFormSubmit = async (data: LeadFormData) => {
     try {
       console.log('Lead data:', data);
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Descargar el recurso según el tipo
       if (data.resourceType === 'budget') {
-        const link = document.createElement('a');
-        link.href = '/manus-storage/presupuesto_consciente_melissa_cuartas_1c4b6977.xlsx';
-        link.download = 'Presupuesto_Consciente_Melissa_Cuartas.xlsx';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        downloadFile('/manus-storage/presupuesto_consciente_melissa_cuartas_1c4b6977.xlsx', 'Presupuesto_Consciente_Melissa_Cuartas.xlsx');
       } else if (data.resourceType === 'beliefs') {
-        const link = document.createElement('a');
-        link.href = '/manus-storage/guia_creencias_limitantes_melissa_cuartas(2)_c03e7a38.xlsx';
-        link.download = 'Guia_Creencias_Limitantes_Melissa_Cuartas.xlsx';
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        downloadFile('/manus-storage/guia_creencias_limitantes_melissa_cuartas(2)_c03e7a38.xlsx', 'Guia_Creencias_Limitantes_Melissa_Cuartas.xlsx');
       }
 
       alert(

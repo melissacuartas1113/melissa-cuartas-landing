@@ -8,6 +8,13 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
+// Detect if running in TikTok in-app browser
+const isTikTokBrowser = () => {
+  if (typeof window === 'undefined') return false;
+  const ua = navigator.userAgent.toLowerCase();
+  return ua.includes('tiktok') || ua.includes('bytedance');
+};
+
 
 interface LeadModalProps {
   isOpen: boolean;
@@ -91,10 +98,19 @@ export default function LeadModal({
 
     if (!validateForm()) return;
 
+    // Check if in TikTok browser
+    if (isTikTokBrowser()) {
+      toast.info(
+        language === 'es'
+          ? 'Por favor, abre este link en tu navegador (no en TikTok) para descargar'
+          : 'Please open this link in your browser (not in TikTok) to download'
+      );
+      return;
+    }
+
     setIsLoading(true);
     try {
       // STEP 1: Capture the lead FIRST (send email)
-      // This must complete before we trigger download
       try {
         await captureLead.mutateAsync({
           name: formData.name,
@@ -105,11 +121,9 @@ export default function LeadModal({
         });
       } catch (captureError) {
         console.error('Lead capture error:', captureError);
-        // Don't fail - still try to download
       }
 
       // STEP 2: Trigger download AFTER lead is captured
-      // Use window.open() with fallback to window.location for TikTok compatibility
       let downloadUrl = '';
 
       if (resourceType === 'budget') {
@@ -123,12 +137,10 @@ export default function LeadModal({
       if (downloadUrl) {
         try {
           const newWindow = window.open(downloadUrl, '_blank');
-          // If window.open() was blocked or failed, use fallback
           if (!newWindow) {
             window.location.href = downloadUrl;
           }
         } catch (e) {
-          // If window.open() throws error, use fallback
           console.warn('window.open() failed, using fallback:', e);
           window.location.href = downloadUrl;
         }

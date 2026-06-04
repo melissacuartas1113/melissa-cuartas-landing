@@ -43,43 +43,16 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
     },
   ];
 
-  const downloadFile = (url: string, filename: string) => {
-    try {
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename;
-      link.setAttribute('download', filename);
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      
-      setTimeout(() => {
-        link.click();
-        setTimeout(() => {
-          document.body.removeChild(link);
-        }, 100);
-      }, 50);
-    } catch (error) {
-      console.error('Download error:', error);
-      window.open(url, '_blank');
-    }
-  };
-
   const handleFormSubmit = async (data: LeadFormData) => {
     try {
       console.log('Lead data:', data);
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       if (data.resourceType === 'budget') {
-        downloadFile('/manus-storage/presupuesto_consciente_melissa_cuartas_1c4b6977.xlsx', 'Presupuesto_Consciente_Melissa_Cuartas.xlsx');
+        window.location.href = '/manus-storage/presupuesto_consciente_melissa_cuartas_1c4b6977.xlsx';
       } else if (data.resourceType === 'beliefs') {
-        downloadFile('/manus-storage/guia_creencias_limitantes_melissa_cuartas(2)_c03e7a38.xlsx', 'Guia_Creencias_Limitantes_Melissa_Cuartas.xlsx');
+        window.location.href = '/manus-storage/guia_creencias_limitantes_melissa_cuartas(2)_c03e7a38.xlsx';
       }
-
-      alert(
-        language === 'es'
-          ? '¡Perfecto! Tu plantilla se está descargando.'
-          : 'Perfect! Your template is downloading.'
-      );
     } catch (error) {
       console.error('Error submitting form:', error);
       alert(language === 'es' ? 'Hubo un error. Intenta de nuevo.' : 'There was an error. Try again.');

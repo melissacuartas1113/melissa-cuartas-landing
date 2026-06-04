@@ -48,10 +48,25 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
       console.log('Lead data:', data);
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
+      let url = '';
+      let filename = '';
+
       if (data.resourceType === 'budget') {
-        window.location.href = '/manus-storage/presupuesto_consciente_melissa_cuartas_1c4b6977.xlsx';
+        url = '/manus-storage/presupuesto_consciente_melissa_cuartas_1c4b6977.xlsx';
+        filename = 'Presupuesto_Consciente_Melissa_Cuartas.xlsx';
       } else if (data.resourceType === 'beliefs') {
-        window.location.href = '/manus-storage/guia_creencias_limitantes_melissa_cuartas(2)_c03e7a38.xlsx';
+        url = '/manus-storage/guia_creencias_limitantes_melissa_cuartas(2)_c03e7a38.xlsx';
+        filename = 'Guia_Creencias_Limitantes_Melissa_Cuartas.xlsx';
+      }
+
+      if (url) {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
     } catch (error) {
       console.error('Error submitting form:', error);

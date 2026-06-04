@@ -48,18 +48,16 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
       const link = document.createElement('a');
       link.href = url;
       link.download = filename;
+      link.setAttribute('download', filename);
       link.style.display = 'none';
       document.body.appendChild(link);
       
-      link.dispatchEvent(new MouseEvent('click', {
-        bubbles: true,
-        cancelable: true,
-        view: window
-      }));
-      
       setTimeout(() => {
-        document.body.removeChild(link);
-      }, 100);
+        link.click();
+        setTimeout(() => {
+          document.body.removeChild(link);
+        }, 100);
+      }, 50);
     } catch (error) {
       console.error('Download error:', error);
       window.open(url, '_blank');
@@ -79,8 +77,8 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
 
       alert(
         language === 'es'
-          ? '¡Perfecto! Tu plantilla se está descargando. Revisa tu correo para más información.'
-          : 'Perfect! Your template is downloading. Check your email for more information.'
+          ? '¡Perfecto! Tu plantilla se está descargando.'
+          : 'Perfect! Your template is downloading.'
       );
     } catch (error) {
       console.error('Error submitting form:', error);

@@ -52,10 +52,10 @@ export default function ResourcesSection({ language, translations }: ResourcesSe
       let filename = '';
 
       if (data.resourceType === 'budget') {
-        url = '/manus-storage/presupuesto_consciente_melissa_cuartas_1c4b6977.xlsx';
+        url = '/api/download/budget';
         filename = 'Presupuesto_Consciente_Melissa_Cuartas.xlsx';
       } else if (data.resourceType === 'beliefs') {
-        url = '/manus-storage/guia_creencias_limitantes_melissa_cuartas(2)_c03e7a38.xlsx';
+        url = '/api/download/beliefs';
         filename = 'Guia_Creencias_Limitantes_Melissa_Cuartas.xlsx';
       }
 

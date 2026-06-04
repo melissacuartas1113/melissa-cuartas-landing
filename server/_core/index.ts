@@ -36,6 +36,27 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   registerStorageProxy(app);
   registerOAuthRoutes(app);
+
+  // Download endpoint for Excel files with correct MIME type
+  app.get('/api/download/:type', (req, res) => {
+    const { type } = req.params;
+    let storageUrl = '';
+    let filename = '';
+
+    if (type === 'budget') {
+      storageUrl = '/manus-storage/presupuesto_consciente_melissa_cuartas_1c4b6977.xlsx';
+      filename = 'Presupuesto_Consciente_Melissa_Cuartas.xlsx';
+    } else if (type === 'beliefs') {
+      storageUrl = '/manus-storage/guia_creencias_limitantes_melissa_cuartas(2)_c03e7a38.xlsx';
+      filename = 'Guia_Creencias_Limitantes_Melissa_Cuartas.xlsx';
+    } else {
+      return res.status(400).json({ error: 'Invalid file type' });
+    }
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.redirect(storageUrl);
+  });
   // tRPC API
   app.use(
     "/api/trpc",

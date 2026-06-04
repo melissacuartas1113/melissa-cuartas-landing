@@ -99,30 +99,35 @@ export default function CompoundInterestCalculator({ language, translations }: C
   const handleDownloadPDF = () => {
     if (!reportRef.current) {
       console.error('Report reference not found');
+      alert(language === 'es' ? 'Error: No se encontró el contenido' : 'Error: Content not found');
       return;
     }
 
     try {
       const element = reportRef.current;
-      const opt: any = {
-        margin: [8, 8, 8, 8],
-        filename: `calculator-results-${new Date().toLocaleDateString()}.pdf`,
+      const filename = `calculator-results-${new Date().toLocaleDateString()}.pdf`;
+      
+      const opt = {
+        margin: 10,
+        filename: filename,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, allowTaint: true, windowHeight: 1200 },
+        html2canvas: { scale: 2, useCORS: true, allowTaint: true },
         jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
       };
 
-      if (typeof html2pdf === 'function') {
-        html2pdf().set(opt).from(element).save();
-      } else if (html2pdf && typeof (html2pdf as any).default === 'function') {
-        (html2pdf as any).default().set(opt).from(element).save();
-      } else {
-        console.error('html2pdf not available');
-        alert('Error al descargar PDF. Por favor intenta de nuevo.');
+      if (!html2pdf) {
+        console.error('html2pdf not loaded');
+        alert(language === 'es' ? 'Error: Librería no disponible' : 'Error: Library not available');
+        return;
       }
+
+      (html2pdf as any)().set(opt).from(element).save().catch((err: any) => {
+        console.error('PDF error:', err);
+        alert(language === 'es' ? 'Error al generar PDF' : 'Error generating PDF');
+      });
     } catch (error) {
-      console.error('Error downloading PDF:', error);
-      alert('Error al descargar PDF. Por favor intenta de nuevo.');
+      console.error('Error:', error);
+      alert(language === 'es' ? 'Error al descargar PDF' : 'Error downloading PDF');
     }
   };
 

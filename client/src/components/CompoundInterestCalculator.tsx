@@ -97,18 +97,33 @@ export default function CompoundInterestCalculator({ language, translations }: C
   };
 
   const handleDownloadPDF = () => {
-    if (!reportRef.current) return;
+    if (!reportRef.current) {
+      console.error('Report reference not found');
+      return;
+    }
 
-    const element = reportRef.current;
-    const opt: any = {
-      margin: [8, 8, 8, 8],
-      filename: `calculator-results-${new Date().toLocaleDateString()}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, allowTaint: true, windowHeight: 1200 },
-      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
-    };
+    try {
+      const element = reportRef.current;
+      const opt: any = {
+        margin: [8, 8, 8, 8],
+        filename: `calculator-results-${new Date().toLocaleDateString()}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, allowTaint: true, windowHeight: 1200 },
+        jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
+      };
 
-    html2pdf().set(opt).from(element).save();
+      if (typeof html2pdf === 'function') {
+        html2pdf().set(opt).from(element).save();
+      } else if (html2pdf && typeof (html2pdf as any).default === 'function') {
+        (html2pdf as any).default().set(opt).from(element).save();
+      } else {
+        console.error('html2pdf not available');
+        alert('Error al descargar PDF. Por favor intenta de nuevo.');
+      }
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+      alert('Error al descargar PDF. Por favor intenta de nuevo.');
+    }
   };
 
   const locale = language === 'es' ? 'es-ES' : 'en-US';

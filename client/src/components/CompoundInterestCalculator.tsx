@@ -319,35 +319,35 @@ export default function CompoundInterestCalculator({ language, translations }: C
           </div>
 
           {/* Results Section - Wrapped for PDF export */}
-          <div ref={reportRef} className="lg:col-span-2 mt-12 space-y-6 bg-white p-6 rounded-lg">
+          <div ref={reportRef} className="lg:col-span-2 mt-12 space-y-6 bg-white p-8 rounded-lg" style={{ fontSize: '14px' }}>
             {/* Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
-              <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
-                <p className="text-xs md:text-sm text-[#5A8FE0] mb-1 md:mb-2">{t.calculator_final_balance}</p>
-                <p className="text-sm md:text-xl font-bold text-[#0CBFBF] break-words overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+              <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 border border-[#E8EAEF]">
+                <p className="text-sm md:text-base text-[#5A8FE0] mb-2 md:mb-3 font-semibold">{t.calculator_final_balance}</p>
+                <p className="text-base md:text-2xl font-bold text-[#0CBFBF] break-words overflow-hidden">
                   ${finalBalance.toLocaleString(locale)}
                 </p>
               </div>
-              <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
-                <p className="text-xs md:text-sm text-[#5A8FE0] mb-1 md:mb-2">{t.calculator_total_invested}</p>
-                <p className="text-sm md:text-xl font-bold text-[#7B5CE7] break-words overflow-hidden">
+              <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 border border-[#E8EAEF]">
+                <p className="text-sm md:text-base text-[#5A8FE0] mb-2 md:mb-3 font-semibold">{t.calculator_total_invested}</p>
+                <p className="text-base md:text-2xl font-bold text-[#7B5CE7] break-words overflow-hidden">
                   ${totalContributions.toLocaleString(locale)}
                 </p>
               </div>
-              <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
-                <p className="text-xs md:text-sm text-[#5A8FE0] mb-1 md:mb-2">{t.calculator_interest_earned}</p>
-                <p className="text-sm md:text-xl font-bold text-[#5A8FE0] break-words overflow-hidden">
+              <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 border border-[#E8EAEF]">
+                <p className="text-sm md:text-base text-[#5A8FE0] mb-2 md:mb-3 font-semibold">{t.calculator_interest_earned}</p>
+                <p className="text-base md:text-2xl font-bold text-[#5A8FE0] break-words overflow-hidden">
                   ${Math.max(0, totalInterest).toLocaleString(locale)}
                 </p>
               </div>
             </div>
 
             {/* Charts */}
-            <div className="space-y-6">
+            <div className="space-y-8">
               {/* Line Chart */}
-              <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 border border-[#E8EAEF]">
-                <h4 className="text-base md:text-lg font-bold text-[#0D1B3E] mb-3 md:mb-4">{t.calculator_growth}</h4>
-                <ResponsiveContainer width="100%" height={300}>
+              <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 border border-[#E8EAEF]">
+                <h4 className="text-lg md:text-xl font-bold text-[#0D1B3E] mb-4 md:mb-6">{t.calculator_growth}</h4>
+                <ResponsiveContainer width="100%" height={400}>
                   <LineChart data={calculateCompoundInterest} margin={{ top: 5, right: 20, left: 40, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" label={{ value: 'Años / Years', position: 'insideBottomRight', offset: -5 }} />

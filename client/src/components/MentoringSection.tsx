@@ -64,15 +64,13 @@ export default function MentoringSection({ language, translations }: MentoringSe
             </div>
 
             {/* CTA WhatsApp */}
-            <a
-              href={whatsappLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => window.open(whatsappLink, '_blank')}
               className="inline-flex items-center gap-2 btn-primary text-base font-medium mt-4"
             >
               <MessageCircle size={20} />
               {t.cta_know_more}
-            </a>
+            </button>
           </div>
 
           {/* Imagen/Decoración Derecha */}

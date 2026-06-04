@@ -108,10 +108,10 @@ export default function CompoundInterestCalculator({ language, translations }: C
       const filename = `calculator-results-${new Date().toLocaleDateString()}.pdf`;
       
       const opt = {
-        margin: 10,
+        margin: 5,
         filename: filename,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, allowTaint: true, logging: false },
+        html2canvas: { scale: 1.5, useCORS: true, allowTaint: true, logging: false, windowHeight: 1200 },
         jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
       };
 

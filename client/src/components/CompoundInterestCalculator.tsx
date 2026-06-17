@@ -111,11 +111,12 @@ export default function CompoundInterestCalculator({ language, translations }: C
       if (typeof html2pdf !== 'undefined') {
         try {
           const opt = {
-            margin: 5,
+            margin: [15, 10, 15, 10],
             filename: filename,
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 1.5, useCORS: true, allowTaint: true, logging: false, windowHeight: 1200 },
+            html2canvas: { scale: 1.2, useCORS: true, allowTaint: true, logging: false, windowHeight: 1400 },
             jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
+            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
           };
 
           const htmlToPdf = (html2pdf as any).default || html2pdf;
@@ -354,7 +355,7 @@ export default function CompoundInterestCalculator({ language, translations }: C
           </div>
 
           {/* Results Section - Wrapped for PDF export */}
-          <div ref={reportRef} className="lg:col-span-2 mt-12 space-y-6 bg-white p-8 rounded-lg" style={{ fontSize: '14px' }}>
+          <div ref={reportRef} className="lg:col-span-2 mt-12 space-y-6 bg-white p-4 md:p-8 rounded-lg" style={{ fontSize: '12px' }}>
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 border border-[#E8EAEF]">
@@ -382,7 +383,7 @@ export default function CompoundInterestCalculator({ language, translations }: C
               {/* Line Chart */}
               <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 border border-[#E8EAEF]">
                 <h4 className="text-lg md:text-xl font-bold text-[#0D1B3E] mb-4 md:mb-6">{t.calculator_growth}</h4>
-                <ResponsiveContainer width="100%" height={400}>
+                <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={calculateCompoundInterest} margin={{ top: 5, right: 20, left: 40, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" label={{ value: 'Años / Years', position: 'insideBottomRight', offset: -5 }} />

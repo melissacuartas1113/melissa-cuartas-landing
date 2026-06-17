@@ -97,50 +97,27 @@ export default function CompoundInterestCalculator({ language, translations }: C
   };
 
   const handleDownloadPDF = async () => {
-    if (!reportRef.current) {
-      console.error('Report reference not found');
-      alert(language === 'es' ? 'Error: No se encontró el contenido' : 'Error: Content not found');
-      return;
-    }
-
     try {
-      const element = reportRef.current;
       const filename = `calculator-results-${new Date().toLocaleDateString()}.pdf`;
       
-      // Try client-side PDF generation first
-      if (typeof html2pdf !== 'undefined') {
-        try {
-          const opt = {
-            margin: [15, 10, 15, 10],
-            filename: filename,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 1.2, useCORS: true, allowTaint: true, logging: false, windowHeight: 1400 },
-            jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
-            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
-          };
-
-          const htmlToPdf = (html2pdf as any).default || html2pdf;
-          await htmlToPdf().set(opt).from(element).save();
-          return; // Success
-        } catch (clientError) {
-          console.warn('Client-side PDF generation failed, trying server-side:', clientError);
-          // Fall through to server-side generation
-        }
-      }
-
-      // Fallback: Server-side PDF generation
-      console.log('Using server-side PDF generation as fallback');
-      const htmlContent = element.innerHTML;
-      
-      // Send to server for PDF generation
-      const response = await fetch('/api/generate-pdf', {
+      // Send structured data to server for PDF generation
+      const response = await fetch('/api/generate-calculator-pdf', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          html: htmlContent,
-          filename: filename,
+          initialInvestment,
+          monthlyContribution,
+          years,
+          annualRate,
+          compoundingFrequency,
+          finalBalance,
+          totalContributions,
+          totalInterest,
+          data: calculateCompoundInterest,
+          language,
+          filename,
         }),
       });
 

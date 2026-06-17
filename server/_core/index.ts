@@ -99,6 +99,134 @@ async function startServer() {
   });
 
   // PDF generation endpoint for calculator (fallback for in-app browsers)
+  // New endpoint for calculator PDF generation with structured data
+  app.post('/api/generate-calculator-pdf', async (req, res) => {
+    try {
+      const {
+        initialInvestment,
+        monthlyContribution,
+        years,
+        annualRate,
+        compoundingFrequency,
+        finalBalance,
+        totalContributions,
+        totalInterest,
+        data,
+        language,
+        filename,
+      } = req.body;
+
+      const PDFDocument = (await import('pdfkit')).default;
+      const doc = new PDFDocument({
+        size: 'A4',
+        margin: 30,
+      });
+
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+
+      doc.pipe(res);
+
+      const locale = language === 'es' ? 'es-ES' : 'en-US';
+      const t = language === 'es' ? {
+        title: 'Resultados de la Calculadora de Interés Compuesto',
+        finalBalance: 'Balance Final',
+        totalInvested: 'Total Invertido',
+        interestEarned: 'Interés Ganado',
+        parameters: 'Parámetros',
+        initialInvestment: 'Inversión Inicial',
+        monthlyContribution: 'Aporte Mensual',
+        years: 'Años',
+        annualRate: 'Tasa Anual',
+        compounding: 'Capitalización',
+        breakdown: 'Desglose Anual',
+        year: 'Año',
+        balance: 'Balance',
+      } : {
+        title: 'Compound Interest Calculator Results',
+        finalBalance: 'Final Balance',
+        totalInvested: 'Total Invested',
+        interestEarned: 'Interest Earned',
+        parameters: 'Parameters',
+        initialInvestment: 'Initial Investment',
+        monthlyContribution: 'Monthly Contribution',
+        years: 'Years',
+        annualRate: 'Annual Rate',
+        compounding: 'Compounding',
+        breakdown: 'Annual Breakdown',
+        year: 'Year',
+        balance: 'Balance',
+      };
+
+      // Title
+      doc.fontSize(18).font('Helvetica-Bold').text(t.title, { align: 'center' });
+      doc.moveDown(0.5);
+      doc.fontSize(10).font('Helvetica').text(`Generated on ${new Date().toLocaleString()}`, { align: 'center' });
+      doc.moveDown();
+
+      // Summary cards
+      doc.fontSize(12).font('Helvetica-Bold').text(t.finalBalance);
+      doc.fontSize(11).font('Helvetica').text(`$${finalBalance.toLocaleString(locale)}`);
+      doc.moveDown(0.3);
+
+      doc.fontSize(12).font('Helvetica-Bold').text(t.totalInvested);
+      doc.fontSize(11).font('Helvetica').text(`$${totalContributions.toLocaleString(locale)}`);
+      doc.moveDown(0.3);
+
+      doc.fontSize(12).font('Helvetica-Bold').text(t.interestEarned);
+      doc.fontSize(11).font('Helvetica').text(`$${Math.max(0, totalInterest).toLocaleString(locale)}`);
+      doc.moveDown();
+
+      // Parameters
+      doc.fontSize(12).font('Helvetica-Bold').text(t.parameters);
+      doc.fontSize(10).font('Helvetica');
+      doc.text(`${t.initialInvestment}: $${initialInvestment.toLocaleString(locale)}`);
+      doc.text(`${t.monthlyContribution}: $${monthlyContribution.toLocaleString(locale)}`);
+      doc.text(`${t.years}: ${years}`);
+      doc.text(`${t.annualRate}: ${annualRate}%`);
+      doc.text(`${t.compounding}: ${compoundingFrequency}x/year`);
+      doc.moveDown();
+
+      // Breakdown table
+      doc.fontSize(12).font('Helvetica-Bold').text(t.breakdown);
+      doc.moveDown(0.3);
+
+      const tableTop = doc.y;
+      const col1X = 50;
+      const col2X = 150;
+      const col3X = 300;
+      const rowHeight = 20;
+
+      // Table header
+      doc.fontSize(9).font('Helvetica-Bold');
+      doc.text(t.year, col1X, tableTop);
+      doc.text(t.balance, col2X, tableTop);
+      doc.text(t.interestEarned, col3X, tableTop);
+
+      // Table rows
+      doc.fontSize(8).font('Helvetica');
+      let yPosition = tableTop + rowHeight;
+      
+      data.forEach((row: any) => {
+        if (yPosition > 750) {
+          doc.addPage();
+          yPosition = 50;
+        }
+        doc.text(row.year.toString(), col1X, yPosition);
+        doc.text(`$${row.balance.toLocaleString(locale)}`, col2X, yPosition);
+        doc.text(`$${row.interest.toLocaleString(locale)}`, col3X, yPosition);
+        yPosition += rowHeight;
+      });
+
+      doc.end();
+    } catch (error) {
+      console.error('[Calculator PDF] error:', error);
+      res.status(500).json({ error: 'PDF generation failed' });
+    }
+  });
+
+  // Legacy endpoint for backward compatibility
   app.post('/api/generate-pdf', async (req, res) => {
     try {
       const { html, filename } = req.body;
@@ -107,29 +235,23 @@ async function startServer() {
         return res.status(400).json({ error: 'Missing HTML content' });
       }
 
-      // Import pdfkit dynamically
       const PDFDocument = (await import('pdfkit')).default;
       
-      // Create a PDF document
       const doc = new PDFDocument({
         size: 'A4',
         margin: 20,
       });
 
-      // Set response headers for PDF download
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
 
-      // Pipe PDF to response
       doc.pipe(res);
 
-      // Extract text from HTML and add to PDF
       doc.fontSize(14).text('Compound Interest Calculator Results', { align: 'center' });
       doc.moveDown();
       doc.fontSize(10);
       
-      // Simple HTML to text conversion (remove HTML tags)
       const textContent = html
         .replace(/<[^>]*>/g, ' ')
         .replace(/\s+/g, ' ')
@@ -139,7 +261,6 @@ async function startServer() {
       doc.moveDown();
       doc.fontSize(8).text(`Generated on ${new Date().toLocaleString()}`, { align: 'center' });
 
-      // Finalize PDF
       doc.end();
     } catch (error) {
       console.error('[PDF] error:', error);
